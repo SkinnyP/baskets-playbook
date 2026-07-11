@@ -91,6 +91,10 @@
   .pd-steps li{margin-bottom:5px;}
   .pd-steps li::marker{color:var(--accent);font-weight:700;}
   .pd-nojs-hint{font-size:10.5px;color:var(--text-mute);padding-bottom:8px;font-style:italic;}
+  .pd-finisher-ring{animation:pd-pulse 1.4s ease-in-out infinite;}
+  @keyframes pd-pulse{0%,100%{opacity:0.55;} 50%{opacity:1;}}
+  .pd-legend{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--text-mute);padding:2px 2px 8px;}
+  .pd-legend i{width:12px;height:12px;border-radius:50%;background:var(--teal-light);border:2px solid var(--teal);display:inline-block;}
   .pd-caption{font-size:13px;color:var(--text);min-height:34px;padding:8px 2px 4px;line-height:1.4;}
   .pd-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:8px;}
   .pd-btn{border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:8px 14px;border-radius:20px;flex:1;}
