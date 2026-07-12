@@ -99,7 +99,34 @@
   var $ = function(id){ return document.getElementById(id); };
   var fileStatus, btnOpen, btnSave, btnUndo, btnRedo, apiWarning, treeBody, containerSelect,
       btnAddDiagram, btnDuplicate, toolHint, btnCancelAction, courtSvg, stepsBar, btnAddStep,
-      btnAddBranch, branchBar, captionInput, actionsHead, actionsList, reactionHead, reactionList, propsBody;
+      btnAddBranch, branchBar, captionInput, actionsHead, actionsList, reactionHead, reactionList, propsBody,
+      flowTree;
+
+  // Bekannte Trails ohne eigenes "title"/"id"-Feld auf Elternebene — Labels
+  // 1:1 aus den Nav-Überschriften im gebauten playbook.html übernommen, damit
+  // der Editor-Baum dieselben Namen zeigt wie die Live-Seite.
+  var TRAIL_LABELS = {
+    "offense_8sec.trigger.diagram": "Auslösen",
+    "offense_8sec.diagram": "Die 3 Phasen",
+    "offense_8sec.secondary.diagram": "Secondary/Set-Up",
+    "defense_221.diagram": "Schritt für Schritt",
+    "defense_221.release.diagram": "Auflösen"
+  };
+
+  // Sucht vom Diagramm aus rückwärts den nächsten Vorfahren mit einem
+  // "title"- oder "id"-Feld (z.B. der umschließende Play-Eintrag in
+  // pick_and_roll[] oder read_react[].diagrams[]) — deutlich sprechender als
+  // der rohe Pfad, ohne dass jedes Diagramm ein eigenes "label" braucht.
+  function findAncestorTitle(root, trail){
+    for (var i = trail.length - 1; i >= 0; i--){
+      var node = resolvePath(root, trail.slice(0, i));
+      if (node && typeof node === "object" && !Array.isArray(node)){
+        if (typeof node.title === "string") return node.title;
+        if (typeof node.id === "string") return node.id;
+      }
+    }
+    return null;
+  }
 
   // ---- Tree building --------------------------------------------------------
   function walkDiagrams(node, trail, root, out){
@@ -115,10 +142,11 @@
           var cat = root.read_react[trail[1]];
           subgroup = cat && cat.title;
         }
+        var trailKey = trail.join(".");
         out.push({
           trail: trail.slice(), diagram: node,
           group: SECTION_NAMES[top] || top, subgroup: subgroup,
-          label: node.label || trail.slice(1).join(".")
+          label: node.label || TRAIL_LABELS[trailKey] || findAncestorTitle(root, trail) || trail.slice(1).join(".")
         });
         return;
       }
@@ -479,11 +507,6 @@
     arr.forEach(function(st, i){
       stepsBar.appendChild(mkChip(String(i+1), state.stepIndex === i+1, function(){ state.stepIndex = i+1; renderAll(); }));
     });
-    if (branchAtPath(d, state.path)){
-      stepsBar.appendChild(mkChip("Branch ▸", false, function(){
-        state.path = state.path.concat([0]); state.stepIndex = 0; renderAll();
-      }, "option"));
-    }
   }
 
   // Zeigt die Branch, die am aktuellen Pfad hängt — nur wenn man sich genau
@@ -523,6 +546,57 @@
     });
     optsWrap.appendChild(addOpt);
     branchBar.appendChild(optsWrap);
+  }
+
+  // Seitliche Baum-Übersicht des GESAMTEN Ablaufs (Hauptsequenz + alle
+  // verschachtelten Branches), damit man nicht mehr Schritt für Schritt
+  // durchklicken muss, um zu sehen wo eine Option hinführt — jeder Knoten
+  // springt direkt zu seinem state.path/state.stepIndex.
+  function renderFlowTree(){
+    flowTree.innerHTML = "";
+    var d = state.current && state.current.diagram;
+    if (!d){ flowTree.innerHTML = '<p class="ed-hint">Erst ein Diagramm auswählen.</p>'; return; }
+
+    function isCurrent(path, stepIdx){
+      if (path.length !== state.path.length) return false;
+      for (var i=0; i<path.length; i++) if (path[i] !== state.path[i]) return false;
+      return stepIdx === state.stepIndex;
+    }
+    function addNode(text, path, stepIdx, depth, extraClass){
+      var n = document.createElement("button");
+      n.type = "button";
+      n.className = "ed-flow-node" + (isCurrent(path, stepIdx) ? " active" : "") + (extraClass ? " " + extraClass : "");
+      n.style.marginLeft = (depth * 14) + "px";
+      n.textContent = text;
+      n.addEventListener("click", function(){
+        if (!pathExists(d, path)) return;
+        state.path = path.slice(); state.stepIndex = stepIdx; renderAll();
+      });
+      flowTree.appendChild(n);
+    }
+    function truncate(s, n){ return (s && s.length > n) ? s.slice(0, n) + "…" : (s || ""); }
+
+    (function walk(ownSteps, branch, path, depth){
+      if (depth === 0) addNode("Start", [], 0, 0, "flow-start");
+      ownSteps.forEach(function(st, i){
+        addNode((i+1) + ". " + (st.caption ? truncate(st.caption, 30) : "(ohne Beschreibung)"), path, i+1, depth);
+      });
+      if (branch){
+        var promptEl = document.createElement("div");
+        promptEl.className = "ed-flow-prompt";
+        promptEl.style.marginLeft = (depth * 14) + "px";
+        promptEl.textContent = "⑂ " + truncate(branch.prompt || "Branch", 34);
+        flowTree.appendChild(promptEl);
+        branch.options.forEach(function(opt, oi){
+          var optHead = document.createElement("div");
+          optHead.className = "ed-flow-option-head";
+          optHead.style.marginLeft = ((depth+1) * 14) + "px";
+          optHead.textContent = (opt.label || ("Option " + (oi+1))) + (opt.branch ? " ▸" : "");
+          flowTree.appendChild(optHead);
+          walk(opt.steps || [], opt.branch || null, path.concat([oi]), depth + 2);
+        });
+      }
+    })(d.steps, d.branch, [], 0);
   }
 
   function renderCaption(){
@@ -775,7 +849,7 @@
     branchBar = $("branchBar"); captionInput = $("captionInput");
     actionsHead = $("actionsHead"); actionsList = $("actionsList");
     reactionHead = $("reactionHead"); reactionList = $("reactionList");
-    propsBody = $("propsBody");
+    propsBody = $("propsBody"); flowTree = $("flowTree");
 
     btnUndo.addEventListener("click", undo);
     btnRedo.addEventListener("click", redo);
@@ -920,6 +994,7 @@
   function renderAll(){
     renderTree();
     renderProps();
+    renderFlowTree();
     renderStepsBar();
     renderBranchBar();
     renderCaption();
@@ -929,8 +1004,24 @@
     updateHint();
     var has = !!state.current;
     btnAddStep.disabled = !has;
-    btnAddBranch.disabled = !has || !!branchAtPath(state.current.diagram, state.path) ||
-      state.stepIndex !== stepsArrayFor(state.current.diagram, state.path).length;
+    if (!has){
+      btnAddBranch.disabled = true;
+      btnAddBranch.title = "Erst ein Diagramm auswählen.";
+    } else {
+      var d = state.current.diagram;
+      var arr = stepsArrayFor(d, state.path);
+      var existingBranch = branchAtPath(d, state.path);
+      if (existingBranch){
+        btnAddBranch.disabled = true;
+        btnAddBranch.title = "An dieser Stelle gibt es schon eine Verzweigung — im Ablauf-Baum links eine Option ohne „▸“ wählen, um dort eine neue Branch anzulegen.";
+      } else if (state.stepIndex !== arr.length){
+        btnAddBranch.disabled = true;
+        btnAddBranch.title = "Nur am Ende der aktuellen Schritt-Sequenz möglich — zuerst den letzten Schritt (oder „Start“, falls noch keine Schritte da sind) auswählen.";
+      } else {
+        btnAddBranch.disabled = false;
+        btnAddBranch.title = "Neue Verzweigung an dieser Stelle anlegen.";
+      }
+    }
     btnDuplicate.disabled = !state.currentEntry;
     btnAddDiagram.disabled = !state.root || state.containers.length === 0;
     btnCancelAction.disabled = !armed;

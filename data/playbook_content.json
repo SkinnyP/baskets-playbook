@@ -859,7 +859,7 @@
               "label": "Unter dem Block",
               "steps": [
                 {
-                  "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) — X5 bleibt bei O5 in der Zone. O1 nutzt den freien Raum oben und zieht über den Screen.",
+                  "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) und bleibt dadurch am Ballhandler dran — X5 bleibt bei O5 in der Zone, um den Roll abzudecken. O1 nutzt den freien Raum und dribbelt hoch Richtung Freiwurflinie.",
                   "actions": [
                     { "type": "move", "id": "X5", "to": { "x": 175, "y": 220 }, "via": { "x": 181, "y": 184 } },
                     { "type": "move", "id": "X1", "to": { "x": 180, "y": 142 }, "via": { "x": 165, "y": 129 } },
@@ -976,7 +976,7 @@
               "label": "Unter dem Block",
               "steps": [
                 {
-                  "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) — X5 droppt zurück in die Zone. O1 nutzt den freien Raum oben und zieht über den Screen.",
+                  "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) und bleibt dadurch am Ballhandler dran — X5 droppt zurück in die Zone, um den Roll abzudecken. O1 nutzt den freien Raum und dribbelt hoch Richtung Freiwurflinie.",
                   "actions": [
                     { "type": "move", "id": "X5", "to": { "x": 185, "y": 210 }, "via": { "x": 184, "y": 178 } },
                     { "type": "move", "id": "X1", "to": { "x": 185, "y": 145 }, "via": { "x": 165, "y": 129 } },
