@@ -159,6 +159,22 @@
     return { x: midx - nx*bow*side, y: midy - ny*bow*side };
   }
 
+  // Milder Standard-Bogen für Repositionieren/Drift ohne konkretes Hindernis —
+  // reines geradliniges Teleportieren wirkt unnatürlich. Deutlich kleiner als
+  // avoidPath()s Kollisions-Bogen (4–14px statt 32px), schlägt immer weg vom
+  // Korb aus (Seite über die Position des Bewegungs-Mittelpunkts relativ zum
+  // Korb bestimmt). Kurzstrecken unter 14px bleiben ohne Bogen (zu kurz, um
+  // sichtbar zu sein).
+  function naturalArc(from, to, basket){
+    var dx = to.x-from.x, dy = to.y-from.y, len = Math.sqrt(dx*dx+dy*dy) || 1;
+    if (len < 14) return null;
+    var nx = -dy/len, ny = dx/len;
+    var midx = from.x + dx*0.5, midy = from.y + dy*0.5;
+    var side = ((midx-basket.x)*nx + (midy-basket.y)*ny) >= 0 ? 1 : -1;
+    var bow = Math.min(14, Math.max(4, len*0.12));
+    return { x: midx + nx*bow*side, y: midy + ny*bow*side };
+  }
+
   // Zustandslose Simulation: liefert Positionen/Ballträger/Guard-Zuordnung/
   // Highlights nach Ausführung von steps[0..uptoIndex). Spiegelt exakt die
   // Schritt-für-Schritt-Logik von scripts/build.py's diagram_svg() (dort die
@@ -242,7 +258,7 @@
           var dest = recovering[xid] ? guardRecoverPos(attacker, basket) : guardHomePos(attacker, basket, ballPos);
           var from = {x: pos[xid].x, y: pos[xid].y};
           var obstacles = Object.keys(pos).filter(function(id){ return id !== xid; }).map(function(id){ return pos[id]; });
-          var via = avoidPath(from, dest, obstacles);
+          var via = avoidPath(from, dest, obstacles) || naturalArc(from, dest, basket);
           pos[xid] = dest;
           if (Math.hypot(dest.x-from.x, dest.y-from.y) > 6){
             autoTrails.push({ id: xid, from: from, to: dest, via: via });
@@ -536,7 +552,7 @@
         // ignoriert ohnehin Hindernisse nahe am Ziel, das bricht also nicht
         // die normale "Verteidiger landet nah am Angreifer"-Situation).
         var obstacles = Object.keys(self.pos).filter(function(id){ return id !== xid; }).map(function(id){ return self.pos[id]; });
-        var via = avoidPath(from, dest, obstacles);
+        var via = avoidPath(from, dest, obstacles) || naturalArc(from, dest, basket);
         moves.push({ id: xid, from: from, to: dest, via: via, duration: moveDuration("X", from, dest) });
         // Auch automatische Verteidiger-Rotationen sichtbar machen (dezent,
         // damit klar ist WIE der Verteidiger dorthin kam — kein Teleport).
@@ -656,6 +672,7 @@
     guardHomePos: guardHomePos,
     guardRecoverPos: guardRecoverPos,
     avoidPath: avoidPath,
+    naturalArc: naturalArc,
     computeStepState: computeStepState,
     PlayDiagram: PlayDiagram,
     el: el

@@ -98,7 +98,7 @@
   var $ = function(id){ return document.getElementById(id); };
   var fileStatus, btnOpen, btnSave, btnUndo, btnRedo, apiWarning, treeBody, containerSelect,
       btnAddDiagram, btnDuplicate, toolHint, btnCancelAction, courtSvg, stepsBar, btnAddStep,
-      btnAddBranch, branchBar, captionInput, actionsList, propsBody;
+      btnAddBranch, branchBar, captionInput, actionsHead, actionsList, reactionHead, reactionList, propsBody;
 
   // ---- Tree building --------------------------------------------------------
   function walkDiagrams(node, trail, root, out){
@@ -290,6 +290,37 @@
     renderAll();
   }
 
+  // Zieht alle Kurven eines Diagramms nach (z.B. nachdem Start-Positionen von
+  // Hand verschoben wurden): Kollisions-Bogen hat Vorrang vor dem milden
+  // Standard-Bogen für move-Aktionen; dribble/screen bleiben unangetastet,
+  // wenn keine Kollision vorliegt (bewusst geradlinig, siehe finishArmed).
+  function recalcAllCurves(){
+    snapshot();
+    var d = state.current.diagram;
+    var isFull = d.court === "full";
+    function fixStepList(stepsFlat){
+      for (var i=0; i<stepsFlat.length; i++){
+        var priorPos = DiagramEngine.computeStepState(d, stepsFlat, i).pos;
+        stepsFlat[i].actions.forEach(function(action){
+          if (["move","dribble","screen"].indexOf(action.type) === -1) return;
+          var from = priorPos[action.id];
+          if (!from) return;
+          var obstacles = Object.keys(priorPos).filter(function(id){ return id !== action.id; }).map(function(id){ return priorPos[id]; });
+          var bow = DiagramEngine.avoidPath(from, action.to, obstacles);
+          if (bow){ action.via = bow; return; }
+          if (action.type === "move"){
+            var basket = DiagramEngine.basketFor(from, isFull);
+            var arc = DiagramEngine.naturalArc(from, action.to, basket);
+            if (arc) action.via = arc; else delete action.via;
+          }
+        });
+      }
+    }
+    fixStepList(d.steps);
+    if (d.branch) d.branch.options.forEach(function(opt){ fixStepList(d.steps.concat(opt.steps)); });
+    renderAll();
+  }
+
   function renderProps(){
     propsBody.innerHTML = "";
     var d = state.current && state.current.diagram;
@@ -321,7 +352,7 @@
     propsBody.appendChild(geRow);
 
     if (d.guardEngine){
-      var recalcRow = document.createElement("div"); recalcRow.style.marginBottom = "12px";
+      var recalcRow = document.createElement("div"); recalcRow.style.marginBottom = "8px";
       var recalcBtn = document.createElement("button");
       recalcBtn.type = "button"; recalcBtn.className = "ed-btn ed-btn-small";
       recalcBtn.textContent = "Start-Positionen neu berechnen";
@@ -330,6 +361,14 @@
       recalcRow.appendChild(recalcBtn);
       propsBody.appendChild(recalcRow);
     }
+    var recalcCurvesRow = document.createElement("div"); recalcCurvesRow.style.marginBottom = "12px";
+    var recalcCurvesBtn = document.createElement("button");
+    recalcCurvesBtn.type = "button"; recalcCurvesBtn.className = "ed-btn ed-btn-small";
+    recalcCurvesBtn.textContent = "Kurven neu berechnen";
+    recalcCurvesBtn.title = "Zieht alle Move/Dribble/Screen-Kurven nach, falls du Startpositionen nachträglich verschoben hast.";
+    recalcCurvesBtn.addEventListener("click", recalcAllCurves);
+    recalcCurvesRow.appendChild(recalcCurvesBtn);
+    propsBody.appendChild(recalcCurvesRow);
 
     var ballField = fieldWrap("Ballträger");
     var ballSpan = document.createElement("div"); ballSpan.textContent = d.ball || "—";
@@ -462,6 +501,7 @@
 
   function renderActionsList(){
     actionsList.innerHTML = "";
+    actionsHead.hidden = true;
     var d = state.current && state.current.diagram;
     if (!d || state.stepIndex === 0) return;
     var arr = stepsArrayFor(d, state.listCtx);
@@ -483,6 +523,24 @@
       right.appendChild(del);
       chip.appendChild(right);
       actionsList.appendChild(chip);
+    });
+    actionsHead.hidden = step.actions.length === 0;
+  }
+
+  // Rein informativ: was die Guard-Engine in diesem Schritt automatisch
+  // bewegt (Helpside-Sag, Recover, Ausweich-Bogen) — getrennt von den vom
+  // Autor gesetzten Aktionen, damit "Aktion" und "Reaktion" klar auseinander
+  // zu halten sind (Story-Prinzip: Layout → Aktion → Reaktion).
+  function renderReactionList(){
+    reactionList.innerHTML = "";
+    var d = state.current && state.current.diagram;
+    if (!d || state.stepIndex === 0 || !d.guardEngine){ reactionHead.hidden = true; return; }
+    var trails = previewState().autoTrails || [];
+    reactionHead.hidden = trails.length === 0;
+    trails.forEach(function(t){
+      var chip = document.createElement("div"); chip.className = "ed-reaction-chip";
+      chip.textContent = t.id + " reagiert automatisch (Helpside/Recover)";
+      reactionList.appendChild(chip);
     });
   }
 
@@ -629,12 +687,29 @@
       if (from){
         var obstacles = Object.keys(priorPos).filter(function(id){ return id !== built.id; }).map(function(id){ return priorPos[id]; });
         var bow = DiagramEngine.avoidPath(from, built.to, obstacles);
-        if (bow && window.confirm("Der direkte Weg verläuft nah an einem anderen Spieler vorbei — Laufweg automatisch drum herum biegen?")){
-          built.via = bow;
+        if (bow){
+          built.via = bow; // Kollision erkannt — sofort automatisch übernehmen, keine Rückfrage
+        } else if (armed.type === "move"){
+          // Reines Repositionieren/Drift ohne Hindernis: milder Standard-Bogen
+          // relativ zum Korb statt Teleport-Geradlinie (dribble/screen bleiben
+          // absichtlich gerade — das sind gezielte Aktionen, kein Drift).
+          var basket = DiagramEngine.basketFor(from, d.court === "full");
+          var arc = DiagramEngine.naturalArc(from, built.to, basket);
+          if (arc) built.via = arc;
         }
       }
     }
     step.actions.push(built);
+    // Nach einem Pass als letztem Schritt: anbieten, einen reinen
+    // Reaktions-Schritt anzuhängen, damit die Helpside-Verschiebung auf die
+    // neue Ballposition sichtbar wird (Guard-Engine reagiert sonst erst im
+    // nächsten, bisher nicht existierenden Schritt).
+    if (armed.type === "pass" && state.stepIndex === arr.length){
+      if (window.confirm("Zusätzlichen Schritt anhängen, damit die Verteidiger auf die neue Ballposition reagieren?")){
+        arr.push({caption:"", actions:[]});
+        state.stepIndex = arr.length;
+      }
+    }
     disarm();
     renderAll();
   }
@@ -645,7 +720,10 @@
     btnUndo = $("btnUndo"); btnRedo = $("btnRedo"); btnCancelAction = $("btnCancelAction");
     treeBody = $("treeBody"); containerSelect = $("containerSelect"); btnAddDiagram = $("btnAddDiagram"); btnDuplicate = $("btnDuplicate");
     toolHint = $("toolHint"); courtSvg = $("courtSvg"); stepsBar = $("stepsBar"); btnAddStep = $("btnAddStep"); btnAddBranch = $("btnAddBranch");
-    branchBar = $("branchBar"); captionInput = $("captionInput"); actionsList = $("actionsList"); propsBody = $("propsBody");
+    branchBar = $("branchBar"); captionInput = $("captionInput");
+    actionsHead = $("actionsHead"); actionsList = $("actionsList");
+    reactionHead = $("reactionHead"); reactionList = $("reactionList");
+    propsBody = $("propsBody");
 
     btnUndo.addEventListener("click", undo);
     btnRedo.addEventListener("click", redo);
@@ -791,6 +869,7 @@
     renderBranchBar();
     renderCaption();
     renderActionsList();
+    renderReactionList();
     renderCanvas();
     updateHint();
     var has = !!state.current;

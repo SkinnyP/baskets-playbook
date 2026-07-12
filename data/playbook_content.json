@@ -60,7 +60,8 @@
                 "label": "Option A · Hilfe kommt",
                 "steps": [
                   { "caption": "Hilfe (gold): X4 verlässt O4, sucht den Intercept auf der Drive-Lane und ist ab jetzt der primäre Verteidiger am Ball. X1 sprintet im Recover hinterher.", "actions": [ { "type": "help", "id": "X4", "target": "O1" } ] },
-                  { "caption": "X4 steht im Intercept zwischen O1 und Korb — aber O4 ist dadurch frei in der Ecke. O1 kickt raus zum offenen Abschluss.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
+                  { "caption": "X4 steht im Intercept zwischen O1 und Korb — aber O4 ist dadurch frei in der Ecke. O1 kickt raus zum offenen Abschluss.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] },
+                  { "caption": "Ball jetzt bei O4 in der Ecke: die übrige Verteidigung sackt automatisch Richtung neuer Ballseite ab, X1 hat wieder Zeit zu recovern.", "actions": [] }
                 ]
               },
               {
@@ -100,7 +101,8 @@
                 "label": "Option A · Hilfe kommt",
                 "steps": [
                   { "caption": "Der Drive zwingt X4 zur Hilfe (gold): er verlässt O4, stellt sich auf die Drive-Lane und übernimmt O1 als primärer Verteidiger. X1 recovert hinterher.", "actions": [ { "type": "help", "id": "X4", "target": "O1" } ] },
-                  { "caption": "X4 steht zwischen O1 und Korb — O4 dadurch frei in der Ecke. O1 kickt zum offenen O4.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
+                  { "caption": "X4 steht zwischen O1 und Korb — O4 dadurch frei in der Ecke. O1 kickt zum offenen O4.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] },
+                  { "caption": "Ball jetzt bei O4 in der Ecke: die übrige Verteidigung sackt automatisch Richtung neuer Ballseite ab.", "actions": [] }
                 ]
               },
               {
@@ -189,7 +191,8 @@
                 "label": "Option A · Fightet über den Block",
                 "steps": [
                   { "caption": "X2 fightet über den Block — O2 läuft trotzdem eng daran vorbei Richtung Korb, O3 füllt hinter ihm auf.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 140 }, "via": { "x": 218, "y": 80 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 } } ] },
-                  { "caption": "O5 spielt den Inside-Out- oder Handoff-Pass auf den Cutter.", "actions": [ { "type": "pass", "from": "O5", "to": "O2" } ] }
+                  { "caption": "O5 spielt den Inside-Out- oder Handoff-Pass auf den Cutter.", "actions": [ { "type": "pass", "from": "O5", "to": "O2" } ] },
+                  { "caption": "Ball jetzt bei O2 nah am Korb: die übrige Verteidigung sackt automatisch zur neuen Ballseite ab.", "actions": [] }
                 ]
               },
               {

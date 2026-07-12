@@ -114,6 +114,13 @@ h1,h2,h3{font-family:'Rokkitt',Georgia,serif;}
 .ed-action-chip button{background:none; border:none; color:var(--danger); cursor:pointer; font-size:14px; line-height:1;}
 .ed-action-chip .via-btn{color:var(--text-mute); font-size:11px; border:1px solid var(--line); border-radius:12px; padding:2px 8px; margin-right:6px;}
 
+.ed-block-head{font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-mute); margin-top:12px;}
+.ed-reaction-list{margin-top:6px; display:flex; flex-direction:column; gap:4px;}
+.ed-reaction-chip{
+  background:none; border:1px dashed var(--line); border-radius:var(--radius);
+  padding:5px 10px; font-size:11.5px; color:var(--text-mute); font-style:italic;
+}
+
 .ed-field{margin-bottom:12px;}
 .ed-field label{display:block; font-size:11px; color:var(--text-mute); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;}
 .ed-field input[type=text], .ed-field select{
