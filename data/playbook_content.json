@@ -869,7 +869,8 @@
                 {
                   "caption": "O1 attackiert sofort den Mismatch und zieht am (jetzt langsameren) X5 vorbei zum Korb.",
                   "actions": [
-                    { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 260 }, "via": { "x": 175, "y": 210 } }
+                    { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 260 }, "via": { "x": 175, "y": 210 } },
+                    { "type": "beat", "id": "X5" }
                   ]
                 },
                 {
@@ -960,7 +961,8 @@
                 {
                   "caption": "O1 spielt den Pass in den freien Lauf zum Korb.",
                   "actions": [
-                    { "type": "pass", "from": "O1", "to": "O5" }
+                    { "type": "pass", "from": "O1", "to": "O5" },
+                    { "type": "beat", "id": "X1" }
                   ]
                 }
               ]
