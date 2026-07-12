@@ -51,7 +51,7 @@
           ],
           "steps": [
             { "caption": "O1 attackiert baseline und schlägt X1 mit dem ersten Schritt — X1 leuchtet rot (geschlagen) und friert für diesen Moment ein.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 280, "y": 248 }, "via": { "x": 291, "y": 196 } }, { "type": "beat", "id": "X1" } ] },
-            { "caption": "O1 zieht straight zum Korb. Gleichzeitig rotiert die Offense: O5 hoch zur Freiwurflinie, O2 füllt den Flügel, O3 den Top-Key.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 218, "y": 294 }, "via": { "x": 266, "y": 296 } }, { "type": "move", "id": "O5", "to": { "x": 150, "y": 218 } }, { "type": "move", "id": "O2", "to": { "x": 250, "y": 148 }, "via": { "x": 205, "y": 108 } }, { "type": "move", "id": "O3", "to": { "x": 150, "y": 118 }, "via": { "x": 80, "y": 118 } } ] }
+            { "caption": "O1 zieht straight zum Korb. Gleichzeitig rotiert die Offense: O5 hoch zur Freiwurflinie, O2 füllt den Flügel, O3 den Top-Key.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 218, "y": 294 }, "via": { "x": 266, "y": 296 } }, { "type": "move", "id": "O5", "to": { "x": 150, "y": 218 }, "via": { "x": 113, "y": 250 } }, { "type": "move", "id": "O2", "to": { "x": 250, "y": 148 }, "via": { "x": 205, "y": 108 } }, { "type": "move", "id": "O3", "to": { "x": 150, "y": 118 }, "via": { "x": 80, "y": 118 } } ] }
           ],
           "branch": {
             "prompt": "Kommt Hilfe von X4, oder recovert X1 rechtzeitig?",
@@ -157,7 +157,7 @@
                 "label": "Option B · Cut & Fill",
                 "steps": [
                   { "caption": "Quick Move — O5 findet keine gute 1-gegen-1-Chance gegen X5. Alle anderen halten kurz die Position.", "actions": [] },
-                  { "caption": "Ohne Abschluss: O1 schneidet außen um O5 zur Grundlinie (Baseline-Cut), O2 füllt den Flügel, O3 füllt den Top-Key auf.", "actions": [ { "type": "cut", "id": "O1", "to": { "x": 158, "y": 322 }, "via": { "x": 285, "y": 300 } }, { "type": "move", "id": "O2", "to": { "x": 258, "y": 150 }, "via": { "x": 206, "y": 100 } }, { "type": "move", "id": "O3", "to": { "x": 150, "y": 118 }, "via": { "x": 80, "y": 118 } }, { "type": "move", "id": "X1", "to": { "x": 170, "y": 305 }, "via": { "x": 176, "y": 227 } }, { "type": "move", "id": "X2", "to": { "x": 240, "y": 170 } }, { "type": "move", "id": "X3", "to": { "x": 150, "y": 140 } } ] }
+                  { "caption": "Ohne Abschluss: O1 schneidet außen um O5 zur Grundlinie (Baseline-Cut), O2 füllt den Flügel, O3 füllt den Top-Key auf.", "actions": [ { "type": "cut", "id": "O1", "to": { "x": 158, "y": 322 }, "via": { "x": 285, "y": 300 } }, { "type": "move", "id": "O2", "to": { "x": 258, "y": 150 }, "via": { "x": 206, "y": 100 } }, { "type": "move", "id": "O3", "to": { "x": 150, "y": 118 }, "via": { "x": 80, "y": 118 } }, { "type": "move", "id": "X1", "to": { "x": 170, "y": 305 }, "via": { "x": 176, "y": 227 } }, { "type": "move", "id": "X2", "to": { "x": 240, "y": 170 }, "via": { "x": 197, "y": 152 } }, { "type": "move", "id": "X3", "to": { "x": 150, "y": 140 }, "via": { "x": 102, "y": 154 } } ] }
                 ]
               }
             ]
@@ -190,7 +190,7 @@
               {
                 "label": "Option A · Fightet über den Block",
                 "steps": [
-                  { "caption": "X2 fightet über den Block — O2 läuft trotzdem eng daran vorbei Richtung Korb, O3 füllt hinter ihm auf.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 140 }, "via": { "x": 218, "y": 80 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 } } ] },
+                  { "caption": "X2 fightet über den Block — O2 läuft trotzdem eng daran vorbei Richtung Korb, O3 füllt hinter ihm auf.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 140 }, "via": { "x": 218, "y": 80 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 }, "via": { "x": 274, "y": 186 } } ] },
                   { "caption": "O5 spielt den Inside-Out- oder Handoff-Pass auf den Cutter.", "actions": [ { "type": "pass", "from": "O5", "to": "O2" } ] },
                   { "caption": "Ball jetzt bei O2 nah am Korb: die übrige Verteidigung sackt automatisch zur neuen Ballseite ab.", "actions": [] }
                 ]
@@ -198,7 +198,7 @@
               {
                 "label": "Option B · Switch",
                 "steps": [
-                  { "caption": "Switch: X2 und X4 tauschen (beide kurz rot) — O2 läuft trotzdem eng um den Block, X4 übernimmt jetzt auf dem Perimeter, X2 rutscht auf O4 in der Zone.", "actions": [ { "type": "switch", "players": ["X2", "X4"] }, { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X4", "to": { "x": 165, "y": 200 } }, { "type": "move", "id": "X2", "to": { "x": 196, "y": 145 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 } } ] },
+                  { "caption": "Switch: X2 und X4 tauschen (beide kurz rot) — O2 läuft trotzdem eng um den Block, X4 übernimmt jetzt auf dem Perimeter, X2 rutscht auf O4 in der Zone.", "actions": [ { "type": "switch", "players": ["X2", "X4"] }, { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X4", "to": { "x": 165, "y": 200 }, "via": { "x": 171, "y": 176 } }, { "type": "move", "id": "X2", "to": { "x": 196, "y": 145 }, "via": { "x": 217, "y": 146 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 }, "via": { "x": 274, "y": 186 } } ] },
                   { "caption": "Mismatch ausgenutzt: X4 (eigentlich Innenverteidiger) kommt auf dem Perimeter nicht mit — O5 findet O2 zum offenen Distanzwurf.", "actions": [ { "type": "pass", "from": "O5", "to": "O2" } ] }
                 ]
               }
@@ -283,14 +283,14 @@
               {
                 "label": "Option A · Curl",
                 "steps": [
-                  { "caption": "X2 läuft über den Block hinterher → O2 curlt eng um den Block Richtung Zone. O4 taucht nach dem Block sofort zum Korb ab, jetzt auf der anderen Seite von X2 — X4 muss absinken, hat aber gegen O2 und O4 gleichzeitig keine Chance (2-gegen-1).", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 178, "y": 238 }, "via": { "x": 259, "y": 208 } }, { "type": "move", "id": "X2", "to": { "x": 216, "y": 246 }, "via": { "x": 279, "y": 247 } }, { "type": "cut", "id": "O4", "to": { "x": 170, "y": 285 }, "via": { "x": 215, "y": 270 } }, { "type": "move", "id": "X4", "to": { "x": 190, "y": 255 } } ] },
+                  { "caption": "X2 läuft über den Block hinterher → O2 curlt eng um den Block Richtung Zone. O4 taucht nach dem Block sofort zum Korb ab, jetzt auf der anderen Seite von X2 — X4 muss absinken, hat aber gegen O2 und O4 gleichzeitig keine Chance (2-gegen-1).", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 178, "y": 238 }, "via": { "x": 259, "y": 208 } }, { "type": "move", "id": "X2", "to": { "x": 216, "y": 246 }, "via": { "x": 279, "y": 247 } }, { "type": "cut", "id": "O4", "to": { "x": 170, "y": 285 }, "via": { "x": 215, "y": 270 } }, { "type": "move", "id": "X4", "to": { "x": 190, "y": 255 }, "via": { "x": 198, "y": 260 } } ] },
                   { "caption": "O1 spielt den Pass in den Curl — O4 wäre als zweite Option ebenso frei zum Korb.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
                 ]
               },
               {
                 "label": "Option B · Flare",
                 "steps": [
-                  { "caption": "X2 antizipiert und taucht unter dem Block durch (baselineseitig) → O2 erkennt das und flared außen am Block vorbei nach oben zum Flügel, statt hindurchzulaufen.", "actions": [ { "type": "move", "id": "X2", "to": { "x": 215, "y": 260 } }, { "type": "cut", "id": "O2", "to": { "x": 255, "y": 175 }, "via": { "x": 270, "y": 235 } } ] },
+                  { "caption": "X2 antizipiert und taucht unter dem Block durch (baselineseitig) → O2 erkennt das und flared außen am Block vorbei nach oben zum Flügel, statt hindurchzulaufen.", "actions": [ { "type": "move", "id": "X2", "to": { "x": 215, "y": 260 }, "via": { "x": 230, "y": 279 } }, { "type": "cut", "id": "O2", "to": { "x": 255, "y": 175 }, "via": { "x": 270, "y": 235 } } ] },
                   { "caption": "O1 wirft den Flare-Pass über die Defense zu O2.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
                 ]
               }
@@ -323,7 +323,7 @@
               {
                 "label": "Option A · Backdoor öffnet sich",
                 "steps": [
-                  { "caption": "O2 täuscht einen Schritt nach außen an, um X2 noch enger zu ziehen.", "actions": [ { "type": "move", "id": "O2", "to": { "x": 258, "y": 128 } } ] },
+                  { "caption": "O2 täuscht einen Schritt nach außen an, um X2 noch enger zu ziehen.", "actions": [ { "type": "move", "id": "O2", "to": { "x": 258, "y": 128 }, "via": { "x": 247, "y": 131 } } ] },
                   { "caption": "O2 schneidet hart im Rücken von X2 zum Korb (Backdoor).", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 185, "y": 298 }, "via": { "x": 262, "y": 205 } } ] },
                   { "caption": "Erst nachdem O2 den Cut committet hat, spielt O1 den Lob-Pass in den Laufweg zum Korb — nicht vorher, sonst wäre er noch nach außen zu X2 unterwegs.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
                 ]
@@ -435,7 +435,7 @@
           ],
           "steps": [
             { "caption": "O5 stellt den Down-Screen am Block (Zipper-Screen) gegen X2. X5 bleibt eng an O5 dran.", "actions": [ { "type": "screen", "id": "O5", "to": { "x": 202, "y": 268 } }, { "type": "move", "id": "X5", "to": { "x": 198, "y": 255 } } ] },
-            { "caption": "O2 zippt eng um den Block senkrecht nach oben zum Elbow — X2 rotiert mit nach oben mit.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 198, "y": 120 }, "via": { "x": 215, "y": 200 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 200 } } ] }
+            { "caption": "O2 zippt eng um den Block senkrecht nach oben zum Elbow — X2 rotiert mit nach oben mit.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 198, "y": 120 }, "via": { "x": 215, "y": 200 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 200 }, "via": { "x": 188, "y": 251 } } ] }
           ],
           "branch": {
             "prompt": "Ist O2 am Elbow offen?",
@@ -494,7 +494,7 @@
                 "label": "Option A · Switch → Roll",
                 "steps": [
                   { "caption": "Verteidigung switcht (beide kurz rot): X4 zeigt schon während des Screens auf O1, X1 hängt am Block fest.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 205, "y": 145 }, "via": { "x": 198, "y": 95 } }, { "type": "switch", "players": ["X1", "X4"] }, { "type": "move", "id": "X4", "to": { "x": 188, "y": 150 } } ] },
-                  { "caption": "Switch komplett: X4 übernimmt O1 auf dessen direkter Korblinie. X1 wechselt auf die Rolle von O4, kommt aber im Rücken — die kleine Nummer 1 kann den großen O4 unter dem Korb nicht mehr stoppen, deshalb muss X5 von O5 helfen. Dadurch räumt O5 sofort den Raum, O2 (Corner Guard) rotiert als Filler hoch.", "actions": [ { "type": "cut", "id": "O4", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } }, { "type": "move", "id": "X4", "to": { "x": 197, "y": 168 } }, { "type": "move", "id": "X1", "to": { "x": 175, "y": 230 } }, { "type": "move", "id": "O5", "to": { "x": 42, "y": 210 } }, { "type": "move", "id": "O2", "to": { "x": 265, "y": 205 } }, { "type": "move", "id": "X5", "to": { "x": 165, "y": 270 } } ] },
+                  { "caption": "Switch komplett: X4 übernimmt O1 auf dessen direkter Korblinie. X1 wechselt auf die Rolle von O4, kommt aber im Rücken — die kleine Nummer 1 kann den großen O4 unter dem Korb nicht mehr stoppen, deshalb muss X5 von O5 helfen. Dadurch räumt O5 sofort den Raum, O2 (Corner Guard) rotiert als Filler hoch.", "actions": [ { "type": "cut", "id": "O4", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } }, { "type": "move", "id": "X4", "to": { "x": 197, "y": 168 } }, { "type": "move", "id": "X1", "to": { "x": 175, "y": 230 }, "via": { "x": 181, "y": 191 } }, { "type": "move", "id": "O5", "to": { "x": 42, "y": 210 }, "via": { "x": 56, "y": 256 } }, { "type": "move", "id": "O2", "to": { "x": 265, "y": 205 }, "via": { "x": 284, "y": 251 } }, { "type": "move", "id": "X5", "to": { "x": 165, "y": 270 }, "via": { "x": 142, "y": 278 } } ] },
                   { "caption": "O1 findet den rollenden O4 mit dem Pass, bevor X5 vollständig helfen kann.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
                 ]
               },
@@ -502,7 +502,7 @@
                 "label": "Option B · Hedge → Pop",
                 "steps": [
                   { "caption": "Verteidigung hedged (Show): X1 kämpft über den Screen, X4 zeigt kurz heraus, um O1 zusätzlich zu verlangsamen — kein Switch.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 120, "y": 155 }, "via": { "x": 190, "y": 110 } }, { "type": "move", "id": "X4", "to": { "x": 200, "y": 150 } } ] },
-                  { "caption": "O4 poppt nach außen zur Dreierlinie — X4 muss aus dem Hedge zurück weit hinterherschließen. O5 (zweiter Big) orientiert sich nach unten an die Korb-Linie.", "actions": [ { "type": "move", "id": "O4", "to": { "x": 245, "y": 118 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "O5", "to": { "x": 150, "y": 310 }, "via": { "x": 110, "y": 330 } }, { "type": "move", "id": "X4", "to": { "x": 225, "y": 135 } } ] },
+                  { "caption": "O4 poppt nach außen zur Dreierlinie — X4 muss aus dem Hedge zurück weit hinterherschließen. O5 (zweiter Big) orientiert sich nach unten an die Korb-Linie.", "actions": [ { "type": "move", "id": "O4", "to": { "x": 245, "y": 118 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "O5", "to": { "x": 150, "y": 310 }, "via": { "x": 110, "y": 330 } }, { "type": "move", "id": "X4", "to": { "x": 225, "y": 135 }, "via": { "x": 210, "y": 139 } } ] },
                   { "caption": "X4 kommt aus dem Hedge zu spät zurück — O1 findet O4 zum offenen Distanzwurf.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
                 ]
               }
@@ -580,9 +580,9 @@
               { "type": "move", "id": "O3", "to": { "x": 40, "y": 300 }, "via": { "x": 26, "y": 440 } },
               { "type": "move", "id": "O5", "to": { "x": 190, "y": 195 }, "via": { "x": 190, "y": 430 } },
               { "type": "move", "id": "O4", "to": { "x": 195, "y": 400 }, "via": { "x": 190, "y": 500 } },
-              { "type": "move", "id": "X1", "to": { "x": 150, "y": 250 } },
-              { "type": "move", "id": "X2", "to": { "x": 230, "y": 240 } },
-              { "type": "move", "id": "X3", "to": { "x": 70, "y": 240 } },
+              { "type": "move", "id": "X1", "to": { "x": 150, "y": 250 }, "via": { "x": 164, "y": 407 } },
+              { "type": "move", "id": "X2", "to": { "x": 230, "y": 240 }, "via": { "x": 241, "y": 408 } },
+              { "type": "move", "id": "X3", "to": { "x": 70, "y": 240 }, "via": { "x": 59, "y": 408 } },
               { "type": "move", "id": "X4", "to": { "x": 150, "y": 200 } },
               { "type": "move", "id": "X5", "to": { "x": 190, "y": 220 }, "via": { "x": 202, "y": 406 } }
             ]
@@ -621,7 +621,7 @@
         ],
         "steps": [
           { "caption": "Kein Fastbreak-Abschluss — die Defense hat sich zurückgezogen und steht gesetzt. O1 zieht den Ball zurück und ordnet das Team neu.", "actions": [] },
-          { "caption": "O4 (Trailer) füllt als Post-Anspielstation, O2/O3 spacen sich auf die Flügel — Übergang in die Secondary.", "actions": [ { "type": "move", "id": "O4", "to": { "x": 190, "y": 275 }, "via": { "x": 178, "y": 250 } }, { "type": "move", "id": "O2", "to": { "x": 268, "y": 210 } }, { "type": "move", "id": "O3", "to": { "x": 32, "y": 210 } }, { "type": "move", "id": "X4", "to": { "x": 195, "y": 295 } }, { "type": "move", "id": "X2", "to": { "x": 250, "y": 225 } }, { "type": "move", "id": "X3", "to": { "x": 50, "y": 225 } } ] },
+          { "caption": "O4 (Trailer) füllt als Post-Anspielstation, O2/O3 spacen sich auf die Flügel — Übergang in die Secondary.", "actions": [ { "type": "move", "id": "O4", "to": { "x": 190, "y": 275 }, "via": { "x": 178, "y": 250 } }, { "type": "move", "id": "O2", "to": { "x": 268, "y": 210 }, "via": { "x": 263, "y": 180 } }, { "type": "move", "id": "O3", "to": { "x": 32, "y": 210 }, "via": { "x": 37, "y": 180 } }, { "type": "move", "id": "X4", "to": { "x": 195, "y": 295 } }, { "type": "move", "id": "X2", "to": { "x": 250, "y": 225 }, "via": { "x": 243, "y": 201 } }, { "type": "move", "id": "X3", "to": { "x": 50, "y": 225 }, "via": { "x": 57, "y": 201 } } ] },
           { "caption": "Aus dieser Set-Aufstellung fließt das Spiel direkt in die Motion-Offense über.", "actions": [] }
         ]
       }
@@ -679,8 +679,8 @@
                 "caption": "O1 zieht direkt durch zum Korb — X4/X5 kommen nicht mehr rechtzeitig.",
                 "actions": [
                   { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 60 }, "via": { "x": 172, "y": 165 } },
-                  { "type": "move", "id": "X4", "to": { "x": 150, "y": 140 } },
-                  { "type": "move", "id": "X5", "to": { "x": 195, "y": 160 } }
+                  { "type": "move", "id": "X4", "to": { "x": 150, "y": 140 }, "via": { "x": 164, "y": 200 } },
+                  { "type": "move", "id": "X5", "to": { "x": 195, "y": 160 }, "via": { "x": 203, "y": 216 } }
                 ]
               }
             ]
@@ -693,7 +693,7 @@
                 "actions": [
                   { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 200 }, "via": { "x": 165, "y": 240 } },
                   { "type": "move", "id": "O4", "to": { "x": 110, "y": 175 }, "via": { "x": 100, "y": 230 } },
-                  { "type": "move", "id": "X4", "to": { "x": 155, "y": 190 } },
+                  { "type": "move", "id": "X4", "to": { "x": 155, "y": 190 }, "via": { "x": 161, "y": 226 } },
                   { "type": "pass", "from": "O1", "to": "O4" }
                 ]
               }
@@ -736,7 +736,7 @@
           "caption": "Aufstellung: X1/X2 auf Höhe der gegnerischen Freiwurflinie, X3/X4 an der Mittellinie, X5 an der eigenen Freiwurflinie. Einwurf nicht stören — Passwege zur Mitte zustellen.",
           "actions": [
             { "type": "pass", "from": "O2", "to": "O1" },
-            { "type": "move", "id": "X1", "to": { "x": 118, "y": 508 } }
+            { "type": "move", "id": "X1", "to": { "x": 118, "y": 508 }, "via": { "x": 118, "y": 498 } }
           ]
         },
         {
@@ -750,20 +750,20 @@
           "caption": "Auf Höhe der Mittellinie: X3 kommt hoch — Falle (Trap) mit X1 an der Seitenlinie.",
           "actions": [
             { "type": "move", "id": "X3", "to": { "x": 74, "y": 320 } },
-            { "type": "move", "id": "X1", "to": { "x": 80, "y": 366 } }
+            { "type": "move", "id": "X1", "to": { "x": 80, "y": 366 }, "via": { "x": 88, "y": 372 } }
           ]
         },
         {
           "caption": "X2 sprintet als Interceptor in die Mitte, X4 übernimmt die Passwege auf der Ballseite.",
           "actions": [
             { "type": "move", "id": "X2", "to": { "x": 148, "y": 355 }, "via": { "x": 168, "y": 425 } },
-            { "type": "move", "id": "X4", "to": { "x": 195, "y": 268 } }
+            { "type": "move", "id": "X4", "to": { "x": 195, "y": 268 }, "via": { "x": 213, "y": 286 } }
           ]
         },
         {
           "caption": "X5 bleibt tief, sichert den langen Pass und den Konter ab.",
           "actions": [
-            { "type": "move", "id": "X5", "to": { "x": 128, "y": 142 } }
+            { "type": "move", "id": "X5", "to": { "x": 128, "y": 142 }, "via": { "x": 141, "y": 138 } }
           ]
         }
       ]
@@ -791,24 +791,24 @@
             "caption": "O1 überschreitet mit dem Ball die Mittellinie — die Press löst sich automatisch auf, alle fünf beginnen den Rückzug.",
             "actions": [
               { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 260 }, "via": { "x": 138, "y": 290 } },
-              { "type": "move", "id": "X1", "to": { "x": 140, "y": 320 } },
-              { "type": "move", "id": "X2", "to": { "x": 170, "y": 320 } },
-              { "type": "move", "id": "X3", "to": { "x": 100, "y": 240 } },
-              { "type": "move", "id": "X4", "to": { "x": 200, "y": 240 } },
-              { "type": "move", "id": "X5", "to": { "x": 150, "y": 150 } }
+              { "type": "move", "id": "X1", "to": { "x": 140, "y": 320 }, "via": { "x": 111, "y": 404 } },
+              { "type": "move", "id": "X2", "to": { "x": 170, "y": 320 }, "via": { "x": 194, "y": 404 } },
+              { "type": "move", "id": "X3", "to": { "x": 100, "y": 240 }, "via": { "x": 82, "y": 273 } },
+              { "type": "move", "id": "X4", "to": { "x": 200, "y": 240 }, "via": { "x": 218, "y": 273 } },
+              { "type": "move", "id": "X5", "to": { "x": 150, "y": 150 }, "via": { "x": 146, "y": 139 } }
             ]
           },
           {
             "caption": "X1/X2 formieren die Front der 2-3-Zone am Zonen-Top, X5 sichert die Mitte/Paint.",
             "actions": [
               { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 200 }, "via": { "x": 145, "y": 230 } },
-              { "type": "move", "id": "O2", "to": { "x": 240, "y": 200 } },
-              { "type": "move", "id": "O3", "to": { "x": 60, "y": 200 } },
-              { "type": "move", "id": "O4", "to": { "x": 210, "y": 280 } },
-              { "type": "move", "id": "O5", "to": { "x": 90, "y": 280 } },
+              { "type": "move", "id": "O2", "to": { "x": 240, "y": 200 }, "via": { "x": 258, "y": 243 } },
+              { "type": "move", "id": "O3", "to": { "x": 60, "y": 200 }, "via": { "x": 42, "y": 243 } },
+              { "type": "move", "id": "O4", "to": { "x": 210, "y": 280 }, "via": { "x": 215, "y": 324 } },
+              { "type": "move", "id": "O5", "to": { "x": 90, "y": 280 }, "via": { "x": 85, "y": 324 } },
               { "type": "move", "id": "X1", "to": { "x": 105, "y": 190 } },
               { "type": "move", "id": "X2", "to": { "x": 195, "y": 190 } },
-              { "type": "move", "id": "X5", "to": { "x": 150, "y": 60 } }
+              { "type": "move", "id": "X5", "to": { "x": 150, "y": 60 }, "via": { "x": 161, "y": 105 } }
             ]
           },
           {
@@ -861,7 +861,7 @@
                 {
                   "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) — X5 bleibt bei O5 in der Zone. O1 nutzt den freien Raum oben und zieht über den Screen.",
                   "actions": [
-                    { "type": "move", "id": "X5", "to": { "x": 175, "y": 220 } },
+                    { "type": "move", "id": "X5", "to": { "x": 175, "y": 220 }, "via": { "x": 181, "y": 184 } },
                     { "type": "move", "id": "X1", "to": { "x": 180, "y": 142 }, "via": { "x": 165, "y": 129 } },
                     { "type": "dribble", "id": "O1", "to": { "x": 205, "y": 145 }, "via": { "x": 198, "y": 95 } }
                   ]
@@ -870,7 +870,7 @@
                   "caption": "X5 hat die Zone komplett zu — O1 zieht lieber den offenen Pull-up, statt den gut bewachten Roll zu suchen. X1 kommt im Rücken an, einen Schritt zu spät für den Kontest.",
                   "actions": [
                     { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } },
-                    { "type": "move", "id": "X5", "to": { "x": 163, "y": 272 } },
+                    { "type": "move", "id": "X5", "to": { "x": 163, "y": 272 }, "via": { "x": 175, "y": 247 } },
                     { "type": "move", "id": "X1", "to": { "x": 195, "y": 160 } }
                   ]
                 }
@@ -884,7 +884,7 @@
                   "actions": [
                     { "type": "switch", "players": ["X1", "X5"] },
                     { "type": "move", "id": "X5", "to": { "x": 192, "y": 142 } },
-                    { "type": "move", "id": "X1", "to": { "x": 185, "y": 150 } },
+                    { "type": "move", "id": "X1", "to": { "x": 185, "y": 150 }, "via": { "x": 186, "y": 112 } },
                     { "type": "beat", "id": "X1" }
                   ]
                 },
@@ -905,7 +905,7 @@
                       {
                         "caption": "X5 kollabiert komplett auf den Drive, um O1 zu stoppen — O5 (immer noch nur 50:50 von X1 begleitet) ist dadurch frei in der Pocket.",
                         "actions": [
-                          { "type": "move", "id": "X5", "to": { "x": 150, "y": 235 } }
+                          { "type": "move", "id": "X5", "to": { "x": 150, "y": 235 }, "via": { "x": 118, "y": 246 } }
                         ]
                       },
                       {
@@ -922,13 +922,13 @@
                       {
                         "caption": "X5 bleibt konservativ zwischen O1 und O5, um die Pocket zuzustellen — dadurch hat O1 freie Bahn, weil X1 immer noch nur 50:50 dran ist.",
                         "actions": [
-                          { "type": "move", "id": "X5", "to": { "x": 165, "y": 255 } }
+                          { "type": "move", "id": "X5", "to": { "x": 165, "y": 255 }, "via": { "x": 157, "y": 252 } }
                         ]
                       },
                       {
                         "caption": "O1 zieht selbst durch bis zum Korb — X1 kommt nie ganz davor.",
                         "actions": [
-                          { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 285 } }
+                          { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 285 }, "via": { "x": 182, "y": 262 } }
                         ]
                       }
                     ]
@@ -978,7 +978,7 @@
                 {
                   "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) — X5 droppt zurück in die Zone. O1 nutzt den freien Raum oben und zieht über den Screen.",
                   "actions": [
-                    { "type": "move", "id": "X5", "to": { "x": 185, "y": 210 } },
+                    { "type": "move", "id": "X5", "to": { "x": 185, "y": 210 }, "via": { "x": 184, "y": 178 } },
                     { "type": "move", "id": "X1", "to": { "x": 185, "y": 145 }, "via": { "x": 165, "y": 129 } },
                     { "type": "dribble", "id": "O1", "to": { "x": 220, "y": 145 }, "via": { "x": 197, "y": 92 } }
                   ]
@@ -987,8 +987,8 @@
                   "caption": "X5 hat die Zone komplett zu — O1 zieht lieber den offenen Pull-up, statt den gut bewachten Roll zu suchen. X1 kommt im Rücken an, einen Schritt zu spät für den Kontest.",
                   "actions": [
                     { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 188, "y": 208 } },
-                    { "type": "move", "id": "X5", "to": { "x": 170, "y": 265 } },
-                    { "type": "move", "id": "X1", "to": { "x": 205, "y": 160 } }
+                    { "type": "move", "id": "X5", "to": { "x": 170, "y": 265 }, "via": { "x": 184, "y": 239 } },
+                    { "type": "move", "id": "X1", "to": { "x": 205, "y": 160 }, "via": { "x": 197, "y": 149 } }
                   ]
                 }
               ]
@@ -1001,7 +1001,7 @@
                   "actions": [
                     { "type": "switch", "players": ["X1", "X5"] },
                     { "type": "move", "id": "X5", "to": { "x": 200, "y": 148 } },
-                    { "type": "move", "id": "X1", "to": { "x": 190, "y": 155 } },
+                    { "type": "move", "id": "X1", "to": { "x": 190, "y": 155 }, "via": { "x": 190, "y": 114 } },
                     { "type": "beat", "id": "X1" }
                   ]
                 },
@@ -1022,7 +1022,7 @@
                       {
                         "caption": "X5 kollabiert komplett auf den Drive, um O1 zu stoppen — O5 (immer noch nur 50:50 von X1 begleitet) ist dadurch komplett frei in der Pocket.",
                         "actions": [
-                          { "type": "move", "id": "X5", "to": { "x": 150, "y": 235 } }
+                          { "type": "move", "id": "X5", "to": { "x": 150, "y": 235 }, "via": { "x": 118, "y": 246 } }
                         ]
                       },
                       {
@@ -1039,13 +1039,13 @@
                       {
                         "caption": "X5 bleibt konservativ zwischen O1 und O5, um die Pocket zuzustellen — dadurch hat O1 freie Bahn, weil X1 immer noch nur 50:50 dran ist.",
                         "actions": [
-                          { "type": "move", "id": "X5", "to": { "x": 165, "y": 255 } }
+                          { "type": "move", "id": "X5", "to": { "x": 165, "y": 255 }, "via": { "x": 157, "y": 252 } }
                         ]
                       },
                       {
                         "caption": "O1 zieht selbst durch bis zum Korb — X1 kommt nie ganz davor.",
                         "actions": [
-                          { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 285 } }
+                          { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 285 }, "via": { "x": 182, "y": 262 } }
                         ]
                       }
                     ]
