@@ -865,16 +865,44 @@
                     { "type": "move", "id": "X1", "to": { "x": 180, "y": 142 }, "via": { "x": 165, "y": 129 } },
                     { "type": "dribble", "id": "O1", "to": { "x": 205, "y": 145 }, "via": { "x": 198, "y": 95 } }
                   ]
-                },
-                {
-                  "caption": "X5 hat die Zone komplett zu — O1 zieht lieber den offenen Pull-up, statt den gut bewachten Roll zu suchen. X1 kommt im Rücken an, einen Schritt zu spät für den Kontest.",
-                  "actions": [
-                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } },
-                    { "type": "move", "id": "X5", "to": { "x": 163, "y": 272 }, "via": { "x": 175, "y": 247 } },
-                    { "type": "move", "id": "X1", "to": { "x": 195, "y": 160 } }
-                  ]
                 }
-              ]
+              ],
+              "branch": {
+                "prompt": "Bleibt X5 bei der Rolle, oder hilft er auf den Pull-up?",
+                "options": [
+                  {
+                    "label": "X5 verteidigt die Rolle",
+                    "steps": [
+                      {
+                        "caption": "X5 bleibt konsequent bei der Rolle (O5) — dafür kommt X1 nach dem Durchgehen nur einen Schritt zu spät zum Kontest. O1 bekommt trotzdem den offenen Pull-up.",
+                        "actions": [
+                          { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } },
+                          { "type": "move", "id": "X5", "to": { "x": 163, "y": 272 }, "via": { "x": 175, "y": 247 } },
+                          { "type": "move", "id": "X1", "to": { "x": 195, "y": 160 } }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label": "X5 hilft auf den Ball",
+                    "steps": [
+                      {
+                        "caption": "X5 verlässt die Rolle und hilft aggressiv auf den Pull-up-Bereich, um O1 den Sprungwurf zu nehmen — O5 hat dadurch freie Bahn zum Korb.",
+                        "actions": [
+                          { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } },
+                          { "type": "move", "id": "X5", "to": { "x": 192, "y": 172 }, "via": { "x": 196, "y": 196 } }
+                        ]
+                      },
+                      {
+                        "caption": "O1 findet den frei rollenden O5 mit dem Pass zum unbewachten Korbleger.",
+                        "actions": [
+                          { "type": "pass", "from": "O1", "to": "O5" }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
             },
             {
               "label": "Über den Block (Switch)",
@@ -982,16 +1010,44 @@
                     { "type": "move", "id": "X1", "to": { "x": 185, "y": 145 }, "via": { "x": 165, "y": 129 } },
                     { "type": "dribble", "id": "O1", "to": { "x": 220, "y": 145 }, "via": { "x": 197, "y": 92 } }
                   ]
-                },
-                {
-                  "caption": "X5 hat die Zone komplett zu — O1 zieht lieber den offenen Pull-up, statt den gut bewachten Roll zu suchen. X1 kommt im Rücken an, einen Schritt zu spät für den Kontest.",
-                  "actions": [
-                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 188, "y": 208 } },
-                    { "type": "move", "id": "X5", "to": { "x": 170, "y": 265 }, "via": { "x": 184, "y": 239 } },
-                    { "type": "move", "id": "X1", "to": { "x": 205, "y": 160 }, "via": { "x": 197, "y": 149 } }
-                  ]
                 }
-              ]
+              ],
+              "branch": {
+                "prompt": "Bleibt X5 bei der Rolle, oder hilft er auf den Pull-up?",
+                "options": [
+                  {
+                    "label": "X5 verteidigt die Rolle",
+                    "steps": [
+                      {
+                        "caption": "X5 bleibt konsequent bei der Rolle (O5) — dafür kommt X1 nach dem Durchgehen nur einen Schritt zu spät zum Kontest. O1 bekommt trotzdem den offenen Pull-up.",
+                        "actions": [
+                          { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 188, "y": 208 } },
+                          { "type": "move", "id": "X5", "to": { "x": 170, "y": 265 }, "via": { "x": 184, "y": 239 } },
+                          { "type": "move", "id": "X1", "to": { "x": 205, "y": 160 }, "via": { "x": 197, "y": 149 } }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label": "X5 hilft auf den Ball",
+                    "steps": [
+                      {
+                        "caption": "X5 verlässt die Rolle und hilft aggressiv auf den Pull-up-Bereich, um O1 den Sprungwurf zu nehmen — O5 hat dadurch freie Bahn zum Korb. Weil in 5-Out kein zweiter Big im Paint steht, ist auch sonst niemand da, der die Rolle übernehmen könnte.",
+                        "actions": [
+                          { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 188, "y": 208 } },
+                          { "type": "move", "id": "X5", "to": { "x": 205, "y": 175 }, "via": { "x": 210, "y": 197 } }
+                        ]
+                      },
+                      {
+                        "caption": "O1 findet den frei rollenden O5 mit dem Pass zum unbewachten Korbleger.",
+                        "actions": [
+                          { "type": "pass", "from": "O1", "to": "O5" }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
             },
             {
               "label": "Über den Block (Switch)",
