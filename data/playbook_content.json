@@ -182,7 +182,7 @@
           ],
           "steps": [
             { "caption": "O1 spielt von links auf O5 in den Post an.", "actions": [ { "type": "pass", "from": "O1", "to": "O5" } ] },
-            { "caption": "Statt zu schneiden stellt O4 den Guard-to-Guard-Screen für O2, nah an der Dreierlinie.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 196, "y": 120 } } ] }
+            { "caption": "Statt zu schneiden stellt O4 den Guard-to-Guard-Screen für O2, nah an der Dreierlinie.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 196, "y": 120 }, "target": "X2" } ] }
           ],
           "branch": {
             "prompt": "Wie verteidigt X2 den Block?",
@@ -198,7 +198,7 @@
               {
                 "label": "Option B · Switch",
                 "steps": [
-                  { "caption": "Switch: X2 und X4 tauschen (beide kurz rot) — O2 läuft trotzdem eng um den Block, X4 übernimmt jetzt auf dem Perimeter, X2 rutscht auf O4 in der Zone.", "actions": [ { "type": "switch", "players": ["X2", "X4"] }, { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X4", "to": { "x": 165, "y": 200 }, "via": { "x": 171, "y": 176 } }, { "type": "move", "id": "X2", "to": { "x": 196, "y": 145 }, "via": { "x": 217, "y": 146 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 }, "via": { "x": 274, "y": 186 } } ] },
+                  { "caption": "Switch: X2 und X4 tauschen (beide kurz rot) — O2 läuft trotzdem eng um den Block. X4 übernimmt jetzt O2 und ist ihm auf dem Weg zur Grundlinie noch einen Schritt hinterher, X2 rutscht auf den stehenden O4 am Screen-Punkt.", "actions": [ { "type": "switch", "players": ["X2", "X4"] }, { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X4", "to": { "x": 165, "y": 200 }, "via": { "x": 171, "y": 176 } }, { "type": "move", "id": "X2", "to": { "x": 196, "y": 145 }, "via": { "x": 217, "y": 146 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 }, "via": { "x": 274, "y": 186 } } ] },
                   { "caption": "Mismatch ausgenutzt: X4 (eigentlich Innenverteidiger) kommt auf dem Perimeter nicht mit — O5 findet O2 zum offenen Distanzwurf.", "actions": [ { "type": "pass", "from": "O5", "to": "O2" } ] }
                 ]
               }
@@ -275,7 +275,7 @@
             { "id": "X5", "team": "X", "label": "X5", "x": 98, "y": 268 }
           ],
           "steps": [
-            { "caption": "O4 stellt den Down-Screen für O2.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 232, "y": 250 }, "via": { "x": 248, "y": 206 } } ] }
+            { "caption": "O4 stellt den Down-Screen für O2.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 232, "y": 250 }, "via": { "x": 248, "y": 206 }, "target": "X2" } ] }
           ],
           "branch": {
             "prompt": "Wie verteidigt X2 den Block?",
@@ -358,8 +358,8 @@
             {
               "caption": "O2 startet unten in der Baseline-Stack. O4 kommt vom Elbow als erster (äußerer) Blocksteller — er führt bei Erfolg direkt zur Dreier-Ebene. O5 stellt sich dahinter als zweiter (innerer) Block — er ist die Option für Freiwurflinie oder tiefer.",
               "actions": [
-                { "type": "screen", "id": "O4", "to": { "x": 100, "y": 258 } },
-                { "type": "screen", "id": "O5", "to": { "x": 108, "y": 218 }, "via": { "x": 101, "y": 179 } }
+                { "type": "screen", "id": "O4", "to": { "x": 100, "y": 258 }, "target": "X2" },
+                { "type": "screen", "id": "O5", "to": { "x": 108, "y": 218 }, "via": { "x": 101, "y": 179 }, "target": "X2" }
               ]
             }
           ],
@@ -434,7 +434,7 @@
             { "id": "X4", "team": "X", "label": "X4", "x": 45, "y": 292 }
           ],
           "steps": [
-            { "caption": "O5 stellt den Down-Screen am Block (Zipper-Screen) gegen X2. X5 bleibt eng an O5 dran.", "actions": [ { "type": "screen", "id": "O5", "to": { "x": 202, "y": 268 } }, { "type": "move", "id": "X5", "to": { "x": 198, "y": 255 } } ] },
+            { "caption": "O5 stellt den Down-Screen am Block (Zipper-Screen) gegen X2. X5 bleibt eng an O5 dran.", "actions": [ { "type": "screen", "id": "O5", "to": { "x": 188, "y": 288 }, "target": "X2" }, { "type": "move", "id": "X5", "to": { "x": 194, "y": 275 } } ] },
             { "caption": "O2 zippt eng um den Block senkrecht nach oben zum Elbow — X2 rotiert mit nach oben mit.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 198, "y": 120 }, "via": { "x": 215, "y": 200 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 200 }, "via": { "x": 188, "y": 251 } } ] }
           ],
           "branch": {
@@ -485,7 +485,7 @@
             { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 165 }
           ],
           "steps": [
-            { "caption": "O4 stellt den Ball-Screen ganz nah an X1, direkt an der Dreierlinie.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 172, "y": 132 } } ] }
+            { "caption": "O4 stellt den Ball-Screen ganz nah an X1, direkt an der Dreierlinie.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 172, "y": 132 }, "target": "X1" } ] }
           ],
           "branch": {
             "prompt": "Wie verteidigt X4 den Screen — und was macht O4 danach?",
@@ -848,7 +848,7 @@
           {
             "caption": "O5 kommt herüber und stellt den Ball-Screen ganz nah an X1, direkt an der Dreierlinie.",
             "actions": [
-              { "type": "screen", "id": "O5", "to": { "x": 172, "y": 130 } }
+              { "type": "screen", "id": "O5", "to": { "x": 172, "y": 130 }, "target": "X1" }
             ]
           }
         ],
@@ -911,8 +911,8 @@
                   "caption": "X1 entscheidet sich, ÜBER den Screen zu kämpfen — Switch! X1 und X5 tauschen die Zuordnung (beide kurz rot). X5 zeigt sofort auf O1, aber X1 schafft es nicht, rechtzeitig vor O5 zu recovern.",
                   "actions": [
                     { "type": "switch", "players": ["X1", "X5"] },
-                    { "type": "move", "id": "X5", "to": { "x": 192, "y": 142 } },
-                    { "type": "move", "id": "X1", "to": { "x": 185, "y": 150 }, "via": { "x": 186, "y": 112 } },
+                    { "type": "move", "id": "X5", "to": { "x": 198, "y": 140 } },
+                    { "type": "move", "id": "X1", "to": { "x": 178, "y": 158 }, "via": { "x": 186, "y": 112 } },
                     { "type": "beat", "id": "X1" }
                   ]
                 },
@@ -993,7 +993,7 @@
           {
             "caption": "O5 kommt aus dem 5-Out-Spacing hoch und stellt den Ball-Screen ganz nah an X1, direkt an der Dreierlinie.",
             "actions": [
-              { "type": "screen", "id": "O5", "to": { "x": 172, "y": 130 }, "via": { "x": 111, "y": 173 } }
+              { "type": "screen", "id": "O5", "to": { "x": 172, "y": 130 }, "via": { "x": 111, "y": 173 }, "target": "X1" }
             ]
           }
         ],
@@ -1056,8 +1056,8 @@
                   "caption": "X1 entscheidet sich, ÜBER den Screen zu kämpfen — Switch! X1 und X5 tauschen die Zuordnung (beide kurz rot). X5 zeigt sofort auf O1, aber X1 schafft es nicht, rechtzeitig vor O5 zu recovern.",
                   "actions": [
                     { "type": "switch", "players": ["X1", "X5"] },
-                    { "type": "move", "id": "X5", "to": { "x": 200, "y": 148 } },
-                    { "type": "move", "id": "X1", "to": { "x": 190, "y": 155 }, "via": { "x": 190, "y": 114 } },
+                    { "type": "move", "id": "X5", "to": { "x": 205, "y": 143 } },
+                    { "type": "move", "id": "X1", "to": { "x": 180, "y": 160 }, "via": { "x": 190, "y": 114 } },
                     { "type": "beat", "id": "X1" }
                   ]
                 },

@@ -208,6 +208,7 @@
       ballHolderBeforeStep = ballHolder;
       var explicitThisStep = {};
       var beatenThisStep = {};
+      var screenedThisStep = {};
       autoTrails = [];
       var newHighlight = {};
       Object.keys(highlight).forEach(function(k){ if (highlight[k] === "help") newHighlight[k] = "help"; });
@@ -239,19 +240,30 @@
           ballHolder = action.to;
           return;
         }
-        // move / cut / dribble / screen
+        if (t === "screen"){
+          pos[action.id] = {x: action.to.x, y: action.to.y};
+          explicitThisStep[action.id] = true;
+          // Der gescreente Verteidiger haengt am Screen fest, statt im selben
+          // Schritt schon auf seine naechste Ideal-Position zu springen — er
+          // bekommt dieselbe "recovering"-Behandlung wie ein geschlagener
+          // Verteidiger, bis eine eigene explizite Aktion ihn davon loest.
+          if (action.target) screenedThisStep[action.target] = true;
+          return;
+        }
+        // move / cut / dribble
         pos[action.id] = {x: action.to.x, y: action.to.y};
         explicitThisStep[action.id] = true;
       });
 
       Object.keys(explicitThisStep).forEach(function(id){ delete recovering[id]; });
       Object.keys(beatenThisStep).forEach(function(id){ recovering[id] = true; });
+      Object.keys(screenedThisStep).forEach(function(id){ recovering[id] = true; });
       highlight = newHighlight;
 
       if (guardEngine){
         var ballPos = pos[ballHolderBeforeStep];
         Object.keys(guardMap).forEach(function(xid){
-          if (manualIds[xid] || beatenThisStep[xid] || explicitThisStep[xid]) return;
+          if (manualIds[xid] || beatenThisStep[xid] || screenedThisStep[xid] || explicitThisStep[xid]) return;
           var oid = guardMap[xid];
           var attacker = pos[oid] || startPos[oid];
           var basket = basketFor(attacker, isFull);
@@ -514,6 +526,7 @@
     });
     var beatenIds = {};
     var blockedIds = {};
+    var screenedIds = {};
     step.actions.forEach(function(a){
       if (a.type === "switch"){
         var pa = a.players[0], pb = a.players[1];
@@ -532,6 +545,12 @@
       } else if (a.type === "block"){
         blockedIds[a.id] = true;
         newHighlight[a.id] = "block";
+      } else if (a.type === "screen"){
+        // Der gescreente Verteidiger haengt am Screen fest (keine rote
+        // Markierung wie bei "beat", aber ab jetzt dieselbe "recovering"-
+        // Positionierung), statt im selben Schritt schon an seine naechste
+        // Ideal-Position zu glimmen.
+        if (a.target) screenedIds[a.target] = true;
       }
     });
     // Explizite move-Aktionen beenden den Recovering-Zustand (Autor übernimmt wieder die Kontrolle).
@@ -551,6 +570,7 @@
         if (self.manualIds[xid]) return; // Engine für diesen Spieler deaktiviert
         if (beatenIds[xid]) return; // bleibt eingefroren, wird geschlagen
         if (blockedIds[xid]) return; // bleibt eingefroren, blockt gerade
+        if (screenedIds[xid]) return; // bleibt eingefroren, haengt am Screen fest
         if (movesTo[xid]) return; // hat schon eine explizite Aktion
         var oid = self.guardMap[xid];
         var attacker = movesTo[oid] || self.pos[oid];
@@ -571,6 +591,7 @@
       });
     }
     Object.keys(beatenIds).forEach(function(xid){ self.recovering[xid] = true; });
+    Object.keys(screenedIds).forEach(function(xid){ self.recovering[xid] = true; });
 
     var start = null;
     function frame(ts){

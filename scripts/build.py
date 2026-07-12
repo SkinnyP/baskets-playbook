@@ -223,6 +223,11 @@ def diagram_svg(diagram):
             else:
                 pos[action["id"]] = (action["to"]["x"], action["to"]["y"])
                 explicit_this_step.add(action["id"])
+                if t == "screen" and action.get("target"):
+                    # Der gescreente Verteidiger haengt am Screen fest, statt
+                    # sofort auf seine Ideal-Position zu springen — dieselbe
+                    # Behandlung wie ein geschlagener Verteidiger.
+                    beaten_this_step.add(action["target"])
         if first_mid is not None:
             badges.append(f'<circle cx="{first_mid[0]:.1f}" cy="{first_mid[1]:.1f}" r="8" fill="var(--accent)" stroke="#fff" stroke-width="1"/><text x="{first_mid[0]:.1f}" y="{first_mid[1] + 3:.1f}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">{i}</text>')
         for xid in explicit_this_step:

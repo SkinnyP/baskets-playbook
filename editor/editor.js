@@ -12,7 +12,7 @@
   var ACTION_SPECS = {
     move:    { clicks:["player","point"],  build:function(c){ return {type:"move",    id:c[0], to:c[1]}; } },
     dribble: { clicks:["player","point"],  build:function(c){ return {type:"dribble", id:c[0], to:c[1]}; } },
-    screen:  { clicks:["player","point"],  build:function(c){ return {type:"screen",  id:c[0], to:c[1]}; } },
+    screen:  { clicks:["player","player","point"], build:function(c){ return {type:"screen", id:c[0], target:c[1], to:c[2]}; } },
     pass:    { clicks:["player","player"], build:function(c){ return {type:"pass",    from:c[0], to:c[1]}; } },
     switch:  { clicks:["player","player"], build:function(c){ return {type:"switch",  players:[c[0], c[1]]}; } },
     help:    { clicks:["player","player"], build:function(c){ return {type:"help",    id:c[0], target:c[1]}; } },
@@ -615,7 +615,7 @@
     switch (a.type){
       case "move":    return "Move " + a.id + " → (" + a.to.x + "," + a.to.y + ")";
       case "dribble": return "Dribble " + a.id + " → (" + a.to.x + "," + a.to.y + ")";
-      case "screen":  return "Screen " + a.id + " → (" + a.to.x + "," + a.to.y + ")";
+      case "screen":  return "Screen " + a.id + (a.target ? " gegen " + a.target : "") + " → (" + a.to.x + "," + a.to.y + ")";
       case "pass":    return "Pass " + a.from + " → " + a.to;
       case "switch":  return "Switch " + a.players[0] + " ↔ " + a.players[1];
       case "help":    return "Help " + a.id + " → " + a.target;
@@ -778,13 +778,25 @@
       btn.classList.toggle("armed", !!(armed && armed.type === btn.dataset.action));
     });
   }
+  // Klarere Reihenfolge-Hinweise für Aktionen mit mehreren Spieler-Klicks,
+  // wo "Spieler anklicken" allein nicht sagt WELCHE Rolle gemeint ist
+  // (z.B. bei Screen: erst der Screener, dann der geblockte Verteidiger).
+  var CLICK_LABELS = {
+    screen: ["Screener (O) anklicken", "Verteidiger anklicken, der geblockt wird", "Zielpunkt für den Screen anklicken"],
+    pass:   ["Passgeber anklicken", "Passempfänger anklicken"],
+    switch: ["Ersten Verteidiger anklicken", "Zweiten Verteidiger anklicken"],
+    help:   ["Helfenden Verteidiger anklicken", "Angreifer anklicken, auf den geholfen wird"],
+    block:  ["Blockenden Verteidiger anklicken", "Geblockten Schützen anklicken"]
+  };
+
   function updateHint(){
     btnCancelAction.disabled = !armed;
     if (!state.current){ toolHint.textContent = "Kein Diagramm geladen."; return; }
     if (!armed){ toolHint.textContent = "Aktion wählen, dann Spieler/Feld anklicken."; return; }
     var need = armed.clicks[armed.collected.length];
-    toolHint.textContent = (TOOL_NAMES[armed.type] || armed.type) + ": " +
-      (need === "player" ? "Spieler anklicken" : "Zielpunkt auf dem Feld anklicken") +
+    var specific = (CLICK_LABELS[armed.type] || [])[armed.collected.length];
+    var label = specific || (need === "player" ? "Spieler anklicken" : "Zielpunkt auf dem Feld anklicken");
+    toolHint.textContent = (TOOL_NAMES[armed.type] || armed.type) + ": " + label +
       " (" + (armed.collected.length + 1) + "/" + armed.clicks.length + ")";
   }
 
