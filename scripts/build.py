@@ -178,10 +178,16 @@ def diagram_svg(diagram):
     badges = []
     branch = diagram.get("branch")
     steps = list(diagram.get("steps", []))
-    default_option = None
-    if branch and branch.get("options"):
-        default_option = branch["options"][0]
+    # Verschachtelte Branches: so lange in die jeweils erste (Default-)Option
+    # absteigen, wie diese selbst wieder ein "branch" hat — sammelt dabei jede
+    # durchlaufene Ebene für den Caption-Aufbau weiter unten.
+    branches_seen = []
+    current_branch = branch
+    while current_branch and current_branch.get("options"):
+        default_option = current_branch["options"][0]
         steps = steps + list(default_option.get("steps", []))
+        branches_seen.append((current_branch, default_option))
+        current_branch = default_option.get("branch")
     ball_holder_before_step = ball_holder
     for i, step in enumerate(steps, start=1):
         ball_holder_before_step = ball_holder
@@ -268,12 +274,15 @@ def diagram_svg(diagram):
 
     prefix_len = len(diagram.get("steps", []))
     captions = [s.get("caption", "") for s in steps[:prefix_len]]
-    if branch:
-        captions.append(f'{branch.get("prompt", "")} — gezeigt: „{default_option.get("label", "")}“.')
-        other_labels = [o.get("label", "") for o in branch["options"][1:]]
+    cursor = prefix_len
+    for lvl_branch, lvl_default in branches_seen:
+        captions.append(f'{lvl_branch.get("prompt", "")} — gezeigt: „{lvl_default.get("label", "")}“.')
+        other_labels = [o.get("label", "") for o in lvl_branch["options"][1:]]
         if other_labels:
             captions.append("Weitere Optionen in der animierten Version: " + ", ".join(other_labels) + ".")
-        captions += [s.get("caption", "") for s in steps[prefix_len:]]
+        lvl_steps = lvl_default.get("steps", [])
+        captions += [s.get("caption", "") for s in steps[cursor:cursor + len(lvl_steps)]]
+        cursor += len(lvl_steps)
     if captions:
         p.append('<ol class="pd-steps">')
         for c in captions:

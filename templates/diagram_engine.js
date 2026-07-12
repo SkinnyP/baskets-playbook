@@ -295,10 +295,14 @@
     }, this);
     this.recovering = {};
     this.highlight = {};
-    this.prefixSteps = data.steps || [];
-    this.steps = this.prefixSteps.slice();
-    this.branch = data.branch || null;
+    // Flache, mitwachsende Liste aller bisher gespielten Schritte. activeBranch
+    // ist die Verzweigung, die angezeigt wird sobald steps aufgebraucht ist —
+    // wird bei jeder Wahl neu gesetzt (steigt in verschachtelte branches ab).
+    // branchStack merkt sich den Weg dorthin (fürs Zurück-Navigieren).
+    this.steps = (data.steps || []).slice();
+    this.activeBranch = data.branch || null;
     this.branchChoice = null;
+    this.branchStack = [];
     this.history = [this.snapshot()];
     this.stepIndex = 0;
     this.busy = false;
@@ -368,22 +372,27 @@
   };
 
   PlayDiagram.prototype.chooseBranch = function(i){
-    if (this.busy || !this.branch || this.branchChoice !== null) return;
-    this.branchChoice = i;
-    this.steps = this.prefixSteps.concat(this.branch.options[i].steps);
+    if (this.busy || !this.activeBranch || this.branchChoice !== null) return;
+    var branch = this.activeBranch;
+    this.branchStack.push({ branch: branch, choice: i, prefixLen: this.steps.length });
+    var opt = branch.options[i];
+    this.steps = this.steps.concat(opt.steps || []);
+    // In eine verschachtelte Branch dieser Option absteigen, falls vorhanden.
+    this.activeBranch = opt.branch || null;
+    this.branchChoice = null;
     this.updateControls();
     this.goForward();
   };
 
   PlayDiagram.prototype.updateControls = function(){
     var self = this;
-    var atBranch = this.branch && this.branchChoice === null && this.stepIndex === this.prefixSteps.length;
+    var atBranch = this.activeBranch && this.branchChoice === null && this.stepIndex === this.steps.length;
     this.backBtn.disabled = this.stepIndex === 0 || this.busy;
     if (atBranch){
       this.fwdBtn.style.display = "none";
       this.branchBox.classList.add("active");
       this.branchBox.innerHTML = "";
-      this.branch.options.forEach(function(opt, i){
+      this.activeBranch.options.forEach(function(opt, i){
         var b = document.createElement("button");
         b.type = "button"; b.className = "pd-btn pd-btn-branch"; b.textContent = opt.label;
         b.disabled = self.busy;
@@ -391,7 +400,7 @@
         self.branchBox.appendChild(b);
       });
       this.stepLabelEl.textContent = "Optionen";
-      this.captionEl.textContent = this.branch.prompt;
+      this.captionEl.textContent = this.activeBranch.prompt;
     } else {
       var total = this.steps.length;
       this.fwdBtn.style.display = "";
@@ -479,7 +488,7 @@
   PlayDiagram.prototype.goForward = function(){
     var total = this.steps.length;
     if (this.busy || this.stepIndex >= total) return;
-    if (this.branch && this.branchChoice === null && this.stepIndex === this.prefixSteps.length) return;
+    if (this.activeBranch && this.branchChoice === null && this.stepIndex === this.steps.length) return;
     this.busy = true; this.updateControls();
     var step = this.steps[this.stepIndex];
     var self = this;
@@ -637,16 +646,21 @@
     this.guardMap = JSON.parse(JSON.stringify(snap.guardMap));
     this.recovering = JSON.parse(JSON.stringify(snap.recovering));
     this.highlight = JSON.parse(JSON.stringify(snap.highlight));
-    // Zurück am Fork: gewählte Option verwerfen, Optionsauswahl erneut anzeigen
-    if (this.branch && this.branchChoice !== null && this.stepIndex === this.prefixSteps.length){
+    // Zurück an einen (ggf. verschachtelten) Fork: letzte Wahl verwerfen,
+    // Optionsauswahl dieser Ebene erneut anzeigen (ein goBack poppt höchstens
+    // eine Verzweigungsebene, wie im bisherigen einstufigen Verhalten).
+    var top = this.branchStack[this.branchStack.length-1];
+    if (top && this.stepIndex === top.prefixLen){
+      this.branchStack.pop();
+      this.activeBranch = top.branch;
       this.branchChoice = null;
-      this.steps = this.prefixSteps.slice();
+      this.steps = this.steps.slice(0, top.prefixLen);
       this.history.length = this.stepIndex + 1;
     }
     var toRemove = this.trailLayer.children[this.trailLayer.children.length-1];
     if (toRemove) this.trailLayer.removeChild(toRemove);
     this.renderStatic();
-    if (this.branch && this.branchChoice === null && this.stepIndex === this.prefixSteps.length){
+    if (this.activeBranch && this.branchChoice === null && this.stepIndex === this.steps.length){
       // caption wird von updateControls() auf branch.prompt gesetzt
     } else {
       this.captionEl.textContent = this.stepIndex === 0 ? "Ausgangsposition — \"Weiter\" antippen." : this.steps[this.stepIndex-1].caption;

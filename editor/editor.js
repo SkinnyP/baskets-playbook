@@ -29,7 +29,7 @@
     containers: [],
     currentEntry: null,
     current: null,     // { diagram }
-    listCtx: {kind:"main"},
+    path: [],          // Options-Indizes entlang verschachtelter Branches, [] = Hauptsequenz
     stepIndex: 0
   };
   var armed = null;     // { type, clicks:[...], collected:[...], targetAction? }
@@ -50,17 +50,18 @@
 
   function restoreFrom(json){
     var trail = state.currentEntry ? state.currentEntry.trail : null;
-    var listCtx = state.listCtx, stepIndex = state.stepIndex;
+    var path = state.path, stepIndex = state.stepIndex;
     state.root = JSON.parse(json);
     rebuildIndex();
-    state.currentEntry = null; state.current = null; state.listCtx = {kind:"main"}; state.stepIndex = 0;
+    state.currentEntry = null; state.current = null; state.path = []; state.stepIndex = 0;
     if (trail){
       var trailKey = trail.join(".");
       var entry = state.diagrams.filter(function(e){ return e.trail.join(".") === trailKey; })[0];
       if (entry){
         state.currentEntry = entry;
         state.current = { diagram: entry.diagram };
-        state.listCtx = (listCtx.kind === "option" && !entry.diagram.branch) ? {kind:"main"} : listCtx;
+        // Falls der Pfad nach dem Undo/Redo nicht mehr existiert (Branch entfernt/geändert), auf Hauptsequenz zurückfallen.
+        state.path = pathExists(entry.diagram, path) ? path : [];
         state.stepIndex = stepIndex;
       }
     }
@@ -166,22 +167,58 @@
     };
   }
 
-  // ---- Step-list helpers ------------------------------------------------
-  function stepsArrayFor(diagram, listCtx){
-    if (listCtx.kind === "option") return diagram.branch.options[listCtx.index].steps;
-    return diagram.steps;
+  // ---- Step-list helpers (verschachtelte Branches) -----------------------
+  // state.path ist eine Liste von Options-Indizes: [] = Hauptsequenz,
+  // [1] = Branch → Option 1, [1,0] = Branch → Option 1 → deren Branch → Option 0, usw.
+
+  // Das Options-Objekt, auf das der Pfad zeigt (null bei leerem Pfad = Hauptsequenz).
+  function resolveOption(diagram, path){
+    var branch = diagram.branch, opt = null;
+    for (var i=0; i<path.length; i++){
+      if (!branch) return null;
+      opt = branch.options[path[i]];
+      branch = opt.branch || null;
+    }
+    return opt;
   }
-  function prefixLengthFor(diagram, listCtx){
-    return listCtx.kind === "option" ? diagram.steps.length : 0;
+  // Die Branch, deren Optionen am ENDE dieses Pfades zur Auswahl stehen
+  // (diagram.branch bei leerem Pfad, sonst branch-Feld der Ziel-Option).
+  function branchAtPath(diagram, path){
+    if (path.length === 0) return diagram.branch || null;
+    var opt = resolveOption(diagram, path);
+    return (opt && opt.branch) || null;
   }
-  function flatStepsFor(diagram, listCtx){
-    if (listCtx.kind === "option") return diagram.steps.concat(diagram.branch.options[listCtx.index].steps);
-    return diagram.steps;
+  function pathExists(diagram, path){
+    var branch = diagram.branch;
+    for (var i=0; i<path.length; i++){
+      if (!branch || !branch.options[path[i]]) return false;
+      branch = branch.options[path[i]].branch || null;
+    }
+    return true;
+  }
+  function stepsArrayFor(diagram, path){
+    if (path.length === 0) return diagram.steps;
+    var opt = resolveOption(diagram, path);
+    return opt ? opt.steps : diagram.steps;
+  }
+  function prefixLengthFor(diagram, path){
+    return path.length === 0 ? 0 : flatStepsFor(diagram, path.slice(0, -1)).length;
+  }
+  function flatStepsFor(diagram, path){
+    var flat = diagram.steps.slice();
+    var branch = diagram.branch;
+    for (var i=0; i<path.length; i++){
+      if (!branch) break;
+      var opt = branch.options[path[i]];
+      flat = flat.concat(opt.steps || []);
+      branch = opt.branch || null;
+    }
+    return flat;
   }
   function previewState(){
     var d = state.current.diagram;
-    var flat = flatStepsFor(d, state.listCtx);
-    var upto = prefixLengthFor(d, state.listCtx) + state.stepIndex;
+    var flat = flatStepsFor(d, state.path);
+    var upto = prefixLengthFor(d, state.path) + state.stepIndex;
     return DiagramEngine.computeStepState(d, flat, upto);
   }
   // Positionen aller Spieler unmittelbar VOR dem aktuell gewählten Schritt —
@@ -189,8 +226,8 @@
   // Kollisions-Prüfung neuer Aktionen (setzt state.stepIndex >= 1 voraus).
   function priorStepPos(){
     var d = state.current.diagram;
-    var priorUpto = prefixLengthFor(d, state.listCtx) + (state.stepIndex - 1);
-    return DiagramEngine.computeStepState(d, flatStepsFor(d, state.listCtx), priorUpto).pos;
+    var priorUpto = prefixLengthFor(d, state.path) + (state.stepIndex - 1);
+    return DiagramEngine.computeStepState(d, flatStepsFor(d, state.path), priorUpto).pos;
   }
 
   // ---- Rendering: tree ----------------------------------------------------
@@ -236,7 +273,7 @@
   function loadEntry(entry){
     state.currentEntry = entry;
     state.current = { diagram: entry.diagram };
-    state.listCtx = {kind:"main"};
+    state.path = [];
     state.stepIndex = 0;
     disarm();
     renderAll();
@@ -317,7 +354,14 @@
       }
     }
     fixStepList(d.steps);
-    if (d.branch) d.branch.options.forEach(function(opt){ fixStepList(d.steps.concat(opt.steps)); });
+    (function walkBranch(prefixSteps, branch){
+      if (!branch) return;
+      branch.options.forEach(function(opt){
+        var flat = prefixSteps.concat(opt.steps || []);
+        fixStepList(flat);
+        walkBranch(flat, opt.branch || null);
+      });
+    })(d.steps, d.branch);
     renderAll();
   }
 
@@ -422,38 +466,46 @@
     stepsBar.innerHTML = "";
     var d = state.current && state.current.diagram;
     if (!d) return;
-    var arr = stepsArrayFor(d, state.listCtx);
-    if (state.listCtx.kind === "option"){
-      stepsBar.appendChild(mkChip("← Haupt-Sequenz", false, function(){
-        state.listCtx = {kind:"main"}; state.stepIndex = d.steps.length; renderAll();
+    var arr = stepsArrayFor(d, state.path);
+    if (state.path.length > 0){
+      stepsBar.appendChild(mkChip("← Zurück", false, function(){
+        var parentPath = state.path.slice(0, -1);
+        state.stepIndex = stepsArrayFor(d, parentPath).length;
+        state.path = parentPath;
+        renderAll();
       }, "option"));
     }
     stepsBar.appendChild(mkChip("Start", state.stepIndex === 0, function(){ state.stepIndex = 0; renderAll(); }));
     arr.forEach(function(st, i){
       stepsBar.appendChild(mkChip(String(i+1), state.stepIndex === i+1, function(){ state.stepIndex = i+1; renderAll(); }));
     });
-    if (state.listCtx.kind === "main" && d.branch){
+    if (branchAtPath(d, state.path)){
       stepsBar.appendChild(mkChip("Branch ▸", false, function(){
-        state.listCtx = {kind:"option", index:0}; state.stepIndex = 0; renderAll();
+        state.path = state.path.concat([0]); state.stepIndex = 0; renderAll();
       }, "option"));
     }
   }
 
+  // Zeigt die Branch, die am aktuellen Pfad hängt — nur wenn man sich genau
+  // am Ende der Sequenz befindet (Fork-Punkt). Klick auf eine Option steigt
+  // in state.path ab (unterstützt beliebig tief verschachtelte Branches).
   function renderBranchBar(){
     var d = state.current && state.current.diagram;
-    if (!d || !d.branch){ branchBar.hidden = true; return; }
+    if (!d){ branchBar.hidden = true; return; }
+    var arr = stepsArrayFor(d, state.path);
+    var branch = branchAtPath(d, state.path);
+    if (!branch || state.stepIndex !== arr.length){ branchBar.hidden = true; return; }
     branchBar.hidden = false;
     branchBar.innerHTML = "";
     var promptInput = document.createElement("input"); promptInput.type = "text";
-    promptInput.value = d.branch.prompt || ""; promptInput.placeholder = "Branch-Frage…";
+    promptInput.value = branch.prompt || ""; promptInput.placeholder = "Branch-Frage…";
     snapshotOnFocus(promptInput);
-    promptInput.addEventListener("input", function(){ d.branch.prompt = promptInput.value; });
+    promptInput.addEventListener("input", function(){ branch.prompt = promptInput.value; });
     branchBar.appendChild(promptInput);
     var optsWrap = document.createElement("div"); optsWrap.className = "ed-branch-options";
-    d.branch.options.forEach(function(opt, i){
-      var b = mkChip(opt.label || ("Option " + (i+1)),
-        state.listCtx.kind === "option" && state.listCtx.index === i,
-        function(){ state.listCtx = {kind:"option", index:i}; state.stepIndex = 0; renderAll(); },
+    branch.options.forEach(function(opt, i){
+      var b = mkChip((opt.label || ("Option " + (i+1))) + (opt.branch ? " ▸" : ""), false,
+        function(){ state.path = state.path.concat([i]); state.stepIndex = 0; renderAll(); },
         "option");
       b.title = "Doppelklick zum Umbenennen";
       b.addEventListener("dblclick", function(){
@@ -466,7 +518,7 @@
     addOpt.style.marginLeft = "6px"; addOpt.textContent = "+ Option";
     addOpt.addEventListener("click", function(){
       snapshot();
-      d.branch.options.push({label:"Option " + String.fromCharCode(65 + d.branch.options.length), steps:[]});
+      branch.options.push({label:"Option " + String.fromCharCode(65 + branch.options.length), steps:[]});
       renderAll();
     });
     optsWrap.appendChild(addOpt);
@@ -480,7 +532,7 @@
       captionInput.value = ""; captionInput.placeholder = "Startaufstellung (keine Beschreibung nötig)"; captionInput.disabled = true;
       return;
     }
-    var arr = stepsArrayFor(d, state.listCtx);
+    var arr = stepsArrayFor(d, state.path);
     captionInput.disabled = false;
     captionInput.value = (arr[state.stepIndex-1] && arr[state.stepIndex-1].caption) || "";
   }
@@ -504,7 +556,7 @@
     actionsHead.hidden = true;
     var d = state.current && state.current.diagram;
     if (!d || state.stepIndex === 0) return;
-    var arr = stepsArrayFor(d, state.listCtx);
+    var arr = stepsArrayFor(d, state.path);
     var step = arr[state.stepIndex-1];
     if (!step) return;
     step.actions.forEach(function(action, i){
@@ -597,7 +649,7 @@
     courtSvg.appendChild(trailLayer);
     var ps = previewState();
     if (state.stepIndex > 0){
-      var arr = stepsArrayFor(d, state.listCtx);
+      var arr = stepsArrayFor(d, state.path);
       var step = arr[state.stepIndex-1];
       var priorPos = priorStepPos();
       if (step) step.actions.forEach(function(a){ trailLayer.appendChild(drawTrail(a, priorPos)); });
@@ -664,7 +716,7 @@
 
   function finishArmed(){
     var d = state.current.diagram;
-    if (state.listCtx.kind === "option" && !d.branch){ disarm(); return; }
+    if (state.path.length > 0 && !pathExists(d, state.path)){ disarm(); return; }
     snapshot();
     if (armed.type === "_via"){
       armed.targetAction.via = armed.collected[0];
@@ -674,7 +726,7 @@
       d.ball = armed.collected[0];
       disarm(); renderAll(); return;
     }
-    var arr = stepsArrayFor(d, state.listCtx);
+    var arr = stepsArrayFor(d, state.path);
     if (state.stepIndex === 0){
       if (arr.length === 0) arr.push({caption:"", actions:[]});
       state.stepIndex = 1;
@@ -739,7 +791,7 @@
         fileHandle = handles[0];
         var file = await fileHandle.getFile();
         state.root = JSON.parse(await file.text());
-        state.currentEntry = null; state.current = null; state.listCtx = {kind:"main"}; state.stepIndex = 0;
+        state.currentEntry = null; state.current = null; state.path = []; state.stepIndex = 0;
         undoStack.length = 0; redoStack.length = 0; updateHistoryButtons();
         rebuildIndex();
         fileStatus.textContent = file.name;
@@ -790,9 +842,8 @@
     btnAddStep.addEventListener("click", function(){
       if (!state.current) return;
       var d = state.current.diagram;
-      if (state.listCtx.kind === "option" && !d.branch) return;
       snapshot();
-      var arr = stepsArrayFor(d, state.listCtx);
+      var arr = stepsArrayFor(d, state.path);
       arr.push({caption:"", actions:[]});
       state.stepIndex = arr.length;
       renderAll();
@@ -801,19 +852,23 @@
     btnAddBranch.addEventListener("click", function(){
       if (!state.current) return;
       var d = state.current.diagram;
-      if (d.branch || state.listCtx.kind !== "main") return;
+      if (branchAtPath(d, state.path)) return;
+      var arr = stepsArrayFor(d, state.path);
+      if (state.stepIndex !== arr.length) return; // nur am Ende der aktuellen Sequenz sinnvoll
       var p = window.prompt('Branch-Frage (z.B. "Kommt Hilfe oder nicht?")', "");
       if (p === null) return;
       snapshot();
-      d.branch = { prompt: p, options: [ {label:"Option A", steps:[]}, {label:"Option B", steps:[]} ] };
-      state.listCtx = {kind:"option", index:0};
+      var newBranch = { prompt: p, options: [ {label:"Option A", steps:[]}, {label:"Option B", steps:[]} ] };
+      if (state.path.length === 0) d.branch = newBranch;
+      else resolveOption(d, state.path).branch = newBranch;
+      state.path = state.path.concat([0]);
       state.stepIndex = 0;
       renderAll();
     });
 
     captionInput.addEventListener("input", function(){
       if (!state.current || state.stepIndex === 0) return;
-      var arr = stepsArrayFor(state.current.diagram, state.listCtx);
+      var arr = stepsArrayFor(state.current.diagram, state.path);
       if (arr[state.stepIndex-1]) arr[state.stepIndex-1].caption = captionInput.value;
     });
 
@@ -874,7 +929,8 @@
     updateHint();
     var has = !!state.current;
     btnAddStep.disabled = !has;
-    btnAddBranch.disabled = !has || (has && state.current.diagram.branch) || state.listCtx.kind !== "main";
+    btnAddBranch.disabled = !has || !!branchAtPath(state.current.diagram, state.path) ||
+      state.stepIndex !== stepsArrayFor(state.current.diagram, state.path).length;
     btnDuplicate.disabled = !state.currentEntry;
     btnAddDiagram.disabled = !state.root || state.containers.length === 0;
     btnCancelAction.disabled = !armed;

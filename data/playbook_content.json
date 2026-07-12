@@ -853,40 +853,13 @@
           }
         ],
         "branch": {
-          "prompt": "Der Entscheidungspunkt ist JETZT, am Screen selbst: Wie navigiert X1 ihn — und was macht X5?",
+          "prompt": "Geht X1 unter dem Block durch, oder kämpft er über (Switch)?",
           "options": [
             {
-              "label": "Option A · Switch (sofort)",
+              "label": "Unter dem Block",
               "steps": [
                 {
-                  "caption": "Noch bevor O1 den Screen überhaupt nutzt, ruft X1 „Switch!“ — X1 und X5 tauschen die Zuordnung (beide kurz rot). X5 springt schon jetzt auf O1 raus, X1 dreht sich zu O5.",
-                  "actions": [
-                    { "type": "switch", "players": ["X1", "X5"] },
-                    { "type": "move", "id": "X5", "to": { "x": 192, "y": 142 } },
-                    { "type": "move", "id": "X1", "to": { "x": 195, "y": 168 }, "via": { "x": 194, "y": 124 } }
-                  ]
-                },
-                {
-                  "caption": "O1 attackiert sofort den Mismatch und zieht am (jetzt langsameren) X5 vorbei zum Korb.",
-                  "actions": [
-                    { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 260 }, "via": { "x": 175, "y": 210 } },
-                    { "type": "beat", "id": "X5" }
-                  ]
-                },
-                {
-                  "caption": "Gleichzeitig nimmt O5 den kleineren X1 auf den Rücken und postet tief — zwei Gefahren gleichzeitig (Drive + Post-Seal), die X5 allein nicht abdecken kann: klassisches Zwei-gegen-eins.",
-                  "actions": [
-                    { "type": "move", "id": "O5", "to": { "x": 165, "y": 285 }, "via": { "x": 185, "y": 240 } },
-                    { "type": "move", "id": "X1", "to": { "x": 172, "y": 305 } }
-                  ]
-                }
-              ]
-            },
-            {
-              "label": "Option B · Drop Coverage (X1 kämpft unten durch)",
-              "steps": [
-                {
-                  "caption": "X5 droppt sofort in die Zone (kein Switch). X1 entscheidet sich bewusst, UNTER dem Screen hindurchzukämpfen statt oben herum zu gehen — er bleibt damit näher am Ball und streift dabei sichtbar an O5 vorbei. O1 nutzt den freien Raum oben und zieht über den Screen.",
+                  "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) — X5 bleibt bei O5 in der Zone. O1 nutzt den freien Raum oben und zieht über den Screen.",
                   "actions": [
                     { "type": "move", "id": "X5", "to": { "x": 175, "y": 220 } },
                     { "type": "move", "id": "X1", "to": { "x": 180, "y": 142 }, "via": { "x": 165, "y": 129 } },
@@ -902,6 +875,66 @@
                   ]
                 }
               ]
+            },
+            {
+              "label": "Über den Block (Switch)",
+              "steps": [
+                {
+                  "caption": "X1 entscheidet sich, ÜBER den Screen zu kämpfen — Switch! X1 und X5 tauschen die Zuordnung (beide kurz rot). X5 zeigt sofort auf O1, aber X1 schafft es nicht, rechtzeitig vor O5 zu recovern.",
+                  "actions": [
+                    { "type": "switch", "players": ["X1", "X5"] },
+                    { "type": "move", "id": "X5", "to": { "x": 192, "y": 142 } },
+                    { "type": "move", "id": "X1", "to": { "x": 185, "y": 150 } },
+                    { "type": "beat", "id": "X1" }
+                  ]
+                },
+                {
+                  "caption": "O1 attackiert den Vorteil und zieht zum Korb, O5 rollt gleichzeitig ab. X1 recovert Richtung Abroll-Linie, bleibt aber schräg hinter O5 — 50:50, noch nicht entschieden.",
+                  "actions": [
+                    { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 240 }, "via": { "x": 175, "y": 200 } },
+                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 270 }, "via": { "x": 185, "y": 230 } }
+                  ]
+                }
+              ],
+              "branch": {
+                "prompt": "Kommt Hilfe von X5, oder bleibt er bei O5?",
+                "options": [
+                  {
+                    "label": "Pocket Pass",
+                    "steps": [
+                      {
+                        "caption": "X5 kollabiert komplett auf den Drive, um O1 zu stoppen — O5 (immer noch nur 50:50 von X1 begleitet) ist dadurch frei in der Pocket.",
+                        "actions": [
+                          { "type": "move", "id": "X5", "to": { "x": 150, "y": 235 } }
+                        ]
+                      },
+                      {
+                        "caption": "O1 findet O5 mit dem Pocket Pass zum unbewachten Abschluss.",
+                        "actions": [
+                          { "type": "pass", "from": "O1", "to": "O5" }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Cut zum Korb",
+                    "steps": [
+                      {
+                        "caption": "X5 bleibt konservativ zwischen O1 und O5, um die Pocket zuzustellen — dadurch hat O1 freie Bahn, weil X1 immer noch nur 50:50 dran ist.",
+                        "actions": [
+                          { "type": "move", "id": "X5", "to": { "x": 165, "y": 255 } }
+                        ]
+                      },
+                      {
+                        "caption": "O1 zieht selbst durch bis zum Korb — X1 kommt nie ganz davor.",
+                        "actions": [
+                          { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 285 } }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
             }
           ]
         }
@@ -937,41 +970,13 @@
           }
         ],
         "branch": {
-          "prompt": "Der Entscheidungspunkt ist JETZT, am Screen selbst: Wie navigiert X1 ihn — und was macht X5?",
+          "prompt": "Geht X1 unter dem Block durch, oder kämpft er über (Switch)?",
           "options": [
             {
-              "label": "Option A · Switch (sofort)",
+              "label": "Unter dem Block",
               "steps": [
                 {
-                  "caption": "Noch bevor O1 den Screen nutzt, zeigt X5 schon auf O1 — beide switchen sofort (kurz rot markiert), X1 dreht sich zu O5.",
-                  "actions": [
-                    { "type": "switch", "players": ["X1", "X5"] },
-                    { "type": "move", "id": "X5", "to": { "x": 200, "y": 148 } },
-                    { "type": "move", "id": "X1", "to": { "x": 178, "y": 165 }, "via": { "x": 138, "y": 163 } }
-                  ]
-                },
-                {
-                  "caption": "Switch komplett: X5 übernimmt O1 auf dessen direkter Korblinie. O5 rollt zum Korb, X1 wechselt auf die Rolle, kommt aber im Rücken — und weil in 5-Out kein zweiter Big im Paint steht, ist niemand da, der noch helfen könnte. Der Korb ist frei.",
-                  "actions": [
-                    { "type": "move", "id": "X5", "to": { "x": 209, "y": 168 } },
-                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 188, "y": 208 } },
-                    { "type": "move", "id": "X1", "to": { "x": 170, "y": 235 } }
-                  ]
-                },
-                {
-                  "caption": "O1 spielt den Pass in den freien Lauf zum Korb.",
-                  "actions": [
-                    { "type": "pass", "from": "O1", "to": "O5" },
-                    { "type": "beat", "id": "X1" }
-                  ]
-                }
-              ]
-            },
-            {
-              "label": "Option B · Drop Coverage (X1 kämpft unten durch)",
-              "steps": [
-                {
-                  "caption": "X5 droppt sofort zurück in die Zone (kein Switch). X1 entscheidet sich bewusst, UNTER dem Screen hindurchzukämpfen — er streift dabei sichtbar an O5 vorbei. O1 nutzt den freien Raum oben und zieht über den Screen.",
+                  "caption": "X1 entscheidet sich, UNTER dem Screen hindurchzugehen (kein Switch) — X5 droppt zurück in die Zone. O1 nutzt den freien Raum oben und zieht über den Screen.",
                   "actions": [
                     { "type": "move", "id": "X5", "to": { "x": 185, "y": 210 } },
                     { "type": "move", "id": "X1", "to": { "x": 185, "y": 145 }, "via": { "x": 165, "y": 129 } },
@@ -987,6 +992,66 @@
                   ]
                 }
               ]
+            },
+            {
+              "label": "Über den Block (Switch)",
+              "steps": [
+                {
+                  "caption": "X1 entscheidet sich, ÜBER den Screen zu kämpfen — Switch! X1 und X5 tauschen die Zuordnung (beide kurz rot). X5 zeigt sofort auf O1, aber X1 schafft es nicht, rechtzeitig vor O5 zu recovern.",
+                  "actions": [
+                    { "type": "switch", "players": ["X1", "X5"] },
+                    { "type": "move", "id": "X5", "to": { "x": 200, "y": 148 } },
+                    { "type": "move", "id": "X1", "to": { "x": 190, "y": 155 } },
+                    { "type": "beat", "id": "X1" }
+                  ]
+                },
+                {
+                  "caption": "O1 attackiert den Vorteil und zieht zum Korb, O5 rollt gleichzeitig ab. X1 recovert Richtung Abroll-Linie, bleibt aber schräg hinter O5 — 50:50, noch nicht entschieden. Weil in 5-Out kein zweiter Big im Paint steht, ist auch sonst niemand da, der helfen könnte.",
+                  "actions": [
+                    { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 240 }, "via": { "x": 175, "y": 200 } },
+                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 270 }, "via": { "x": 188, "y": 225 } }
+                  ]
+                }
+              ],
+              "branch": {
+                "prompt": "Kommt Hilfe von X5, oder bleibt er bei O5?",
+                "options": [
+                  {
+                    "label": "Pocket Pass",
+                    "steps": [
+                      {
+                        "caption": "X5 kollabiert komplett auf den Drive, um O1 zu stoppen — O5 (immer noch nur 50:50 von X1 begleitet) ist dadurch komplett frei in der Pocket.",
+                        "actions": [
+                          { "type": "move", "id": "X5", "to": { "x": 150, "y": 235 } }
+                        ]
+                      },
+                      {
+                        "caption": "O1 findet O5 mit dem Pocket Pass zum unbewachten Abschluss.",
+                        "actions": [
+                          { "type": "pass", "from": "O1", "to": "O5" }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Cut zum Korb",
+                    "steps": [
+                      {
+                        "caption": "X5 bleibt konservativ zwischen O1 und O5, um die Pocket zuzustellen — dadurch hat O1 freie Bahn, weil X1 immer noch nur 50:50 dran ist.",
+                        "actions": [
+                          { "type": "move", "id": "X5", "to": { "x": 165, "y": 255 } }
+                        ]
+                      },
+                      {
+                        "caption": "O1 zieht selbst durch bis zum Korb — X1 kommt nie ganz davor.",
+                        "actions": [
+                          { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 285 } }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
             }
           ]
         }
