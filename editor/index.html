@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Play-Editor — Baskets Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;1,400&family=Rokkitt:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+
+<header class="ed-header">
+  <div class="ed-title">Play-Editor <span>Baskets Playbook</span></div>
+  <div class="ed-fileops">
+    <span id="fileStatus" class="ed-file-status">Keine Datei geladen</span>
+    <button id="btnUndo" type="button" class="ed-btn" disabled title="Rückgängig (Strg+Z)">↶ Rückgängig</button>
+    <button id="btnRedo" type="button" class="ed-btn" disabled title="Wiederholen (Strg+Y)">↷ Wiederholen</button>
+    <button id="btnOpen" type="button" class="ed-btn">Datei öffnen…</button>
+    <button id="btnSave" type="button" class="ed-btn ed-btn-accent" disabled>Speichern</button>
+  </div>
+</header>
+
+<div id="apiWarning" class="ed-warning" hidden>
+  Dieser Browser unterstützt die File System Access API nicht (Öffnen/Speichern
+  von Dateien direkt aus dem Editor). Bitte in Chrome oder Edge öffnen.
+</div>
+
+<main class="ed-main">
+
+  <aside class="ed-tree">
+    <div class="ed-panel-head">Plays</div>
+    <div id="treeBody" class="ed-tree-body">
+      <p class="ed-hint">Erst eine Datei öffnen.</p>
+    </div>
+    <div class="ed-tree-actions">
+      <select id="containerSelect" class="ed-select"></select>
+      <button id="btnAddDiagram" type="button" class="ed-btn ed-btn-small" disabled>+ Neu</button>
+      <button id="btnDuplicate" type="button" class="ed-btn ed-btn-small" disabled>Duplizieren</button>
+    </div>
+  </aside>
+
+  <section class="ed-canvas-col">
+    <div class="ed-toolbar" id="toolbar">
+      <button type="button" class="ed-tool" data-action="move">Move/Cut</button>
+      <button type="button" class="ed-tool" data-action="dribble">Dribble</button>
+      <button type="button" class="ed-tool" data-action="screen">Screen</button>
+      <button type="button" class="ed-tool" data-action="pass">Pass</button>
+      <button type="button" class="ed-tool" data-action="switch">Switch</button>
+      <button type="button" class="ed-tool" data-action="help">Help</button>
+      <button type="button" class="ed-tool" data-action="beat">Beat</button>
+      <button type="button" class="ed-tool" data-action="block">Block</button>
+      <button type="button" class="ed-tool" data-action="ball">Ball setzen</button>
+    </div>
+    <div class="ed-tool-hint-row">
+      <div id="toolHint" class="ed-tool-hint">Kein Diagramm geladen.</div>
+      <button id="btnCancelAction" type="button" class="ed-btn ed-btn-small" disabled>Abbrechen (Esc)</button>
+    </div>
+    <div class="ed-court-wrap">
+      <svg id="courtSvg" viewBox="0 0 300 340"></svg>
+    </div>
+    <div class="ed-steps-row">
+      <div id="stepsBar" class="ed-steps-bar"></div>
+      <button id="btnAddStep" type="button" class="ed-btn ed-btn-small" disabled>+ Schritt</button>
+      <button id="btnAddBranch" type="button" class="ed-btn ed-btn-small" disabled>+ Branch</button>
+    </div>
+    <div id="branchBar" class="ed-branch-bar" hidden></div>
+    <textarea id="captionInput" class="ed-caption" placeholder="Beschreibung dieses Schritts…" disabled></textarea>
+    <div id="actionsList" class="ed-actions-list"></div>
+  </section>
+
+  <aside class="ed-props">
+    <div class="ed-panel-head">Eigenschaften</div>
+    <div id="propsBody" class="ed-props-body">
+      <p class="ed-hint">Erst ein Diagramm auswählen.</p>
+    </div>
+  </aside>
+
+</main>
+
+<script src="../templates/diagram_engine.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

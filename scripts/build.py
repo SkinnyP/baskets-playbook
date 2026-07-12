@@ -123,7 +123,7 @@ def _court_svg(full):
 
 def _trail_svg(action, pos, uid):
     out = []
-    if action["type"] in ("switch", "beat", "help"):
+    if action["type"] in ("switch", "beat", "help", "block"):
         return out, None
     if action["type"] == "pass":
         f, to = pos[action["from"]], pos[action["to"]]
@@ -171,8 +171,10 @@ def diagram_svg(diagram):
     manual_ids = {pl["id"] for pl in diagram.get("players", []) if pl.get("manual")}
     recovering = set()
     help_ids = set()
+    block_ids = set()
     explicit_this_step = set()
     beaten_this_step = set()
+    blocked_this_step = set()
     badges = []
     branch = diagram.get("branch")
     steps = list(diagram.get("steps", []))
@@ -186,6 +188,7 @@ def diagram_svg(diagram):
         first_mid = None
         explicit_this_step = set()
         beaten_this_step = set()
+        blocked_this_step = set()
         for action in step.get("actions", []):
             t = action["type"]
             if t == "switch":
@@ -200,6 +203,10 @@ def diagram_svg(diagram):
                 # Helfer übernimmt das Ziel als neuer primärer Verteidiger
                 if action.get("target"):
                     guard_map[action["id"]] = action["target"]
+                continue
+            if t == "block":
+                block_ids.add(action["id"])
+                blocked_this_step.add(action["id"])
                 continue
             trail, mid = _trail_svg(action, pos, uid)
             p.extend(trail)
@@ -222,7 +229,7 @@ def diagram_svg(diagram):
         # snappen, in dem der Ball bei ihm ankommt (Teleport-Effekt).
         ball_pos = pos.get(ball_holder_before_step)
         for xid, oid in guard_map.items():
-            if xid in manual_ids or xid in beaten_this_step or xid in explicit_this_step:
+            if xid in manual_ids or xid in beaten_this_step or xid in explicit_this_step or xid in blocked_this_step:
                 continue
             attacker = pos.get(oid, start_pos.get(oid))
             basket = _basket_for(attacker, full)
@@ -244,6 +251,8 @@ def diagram_svg(diagram):
         else:
             if pid in help_ids:
                 p.append(f'<circle cx="{x}" cy="{y}" r="14" fill="none" stroke="#F2C94C" stroke-width="2.5"/>')
+            if pid in block_ids:
+                p.append(f'<circle cx="{x}" cy="{y}" r="14" fill="none" stroke="#2F80ED" stroke-width="2.5"/>')
             p.append(f'<rect x="{x - 9}" y="{y - 9}" width="18" height="18" fill="var(--cream)" stroke="var(--text-mute)" stroke-width="2" transform="rotate(45 {x} {y})"/>')
             p.append(f'<text x="{x}" y="{y + 3.5}" text-anchor="middle" font-size="8.5" font-weight="700" fill="var(--text-mute)">{pl["label"]}</text>')
     if ball_holder in pos:
