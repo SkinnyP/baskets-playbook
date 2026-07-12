@@ -1,0 +1,14 @@
+[
+  {
+    "id": "demo01",
+    "name": "Demo Spieler",
+    "jersey": 0,
+    "offense_role": "1",
+    "offense_role_label": "Point Guard",
+    "defense_role": "X1",
+    "defense_role_label": "Frontline",
+    "strengths": ["Platzhalter"],
+    "focus_areas": ["Platzhalter"],
+    "notes": "Platzhalter-Datensatz — echte Spielerdaten bleiben lokal (siehe README)."
+  }
+]

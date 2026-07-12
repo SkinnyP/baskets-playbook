@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>{% block title %}Team Playbook{% endblock %}</title>
+{% if touch_icon_uri %}<link rel="apple-touch-icon" href="{{ touch_icon_uri }}">{% endif %}
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="{% block apptitle %}Playbook{% endblock %}">
+<meta name="theme-color" content="#161616">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;1,400&family=Rokkitt:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a; --card:#151515; --line:rgba(255,255,255,0.16);
+    --text:#f5f3ec; --text-mute:rgba(245,243,236,0.62);
+    --navy:#161616; --navy-2:#0a0a0a;
+    --accent:#E8600B; --accent-light:rgba(232,96,11,0.16); --accent-ink:#1a0d00;
+    --teal:#C9962E; --teal-light:rgba(201,150,46,0.16); --teal-ink:#231702;
+    --cream:#1c1c1c; --radius:2px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  section[id], .tag[id]{scroll-margin-top:14px;}
+  .toc{padding:14px 16px 8px;}
+  .toc-head{font-family:'Raleway',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+  .toc-row{padding:9px 0;border-bottom:1px dashed var(--line);}
+  .toc-row:last-child{border-bottom:none;}
+  .toc-ch{display:block;color:var(--text);text-decoration:none;font-weight:700;font-size:14px;}
+  .toc-plays{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .toc-plays a{font-size:10.5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:20px;padding:4px 10px;text-decoration:none;}
+  body{
+    background: repeating-linear-gradient(90deg, #0a0a0a 0 34px, #0d0d0d 34px 36px);
+    color:var(--text); font-family:'Raleway',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  h1,h2,h3,.disp{font-family:'Rokkitt',Georgia,serif; letter-spacing:0.01em;}
+  .wrap{max-width:600px;margin:0 auto;padding:0 16px;}
+  header.hero{background:var(--navy); color:#fff; padding:24px 16px 34px; position:relative; border-bottom:2px solid var(--accent);}
+  .hero-inner{max-width:600px;margin:0 auto;position:relative;z-index:1;}
+  .brand{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);}
+  .brand img{width:56px;height:56px;display:block;filter:invert(1);}
+  .brand .wordmark{font-family:'Rokkitt',Georgia,serif;font-weight:800;font-size:17px;line-height:1.05;letter-spacing:0.04em;text-transform:uppercase;}
+  .brand .wordmark span{display:block;font-family:'Raleway',sans-serif;font-weight:400;font-size:9px;color:var(--accent);letter-spacing:0.3em;margin-top:5px;text-transform:uppercase;}
+  .eyebrow{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;}
+  h1.title{font-family:'Rokkitt',Georgia,serif;font-weight:800;text-transform:uppercase;font-size:30px;margin:8px 0 4px;}
+  .subtitle{color:rgba(255,255,255,0.68);font-size:14px;max-width:420px;}
+  main{padding-top:22px;}
+  section{margin-bottom:30px;}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  .sec-num{font-weight:700;color:var(--accent);font-size:14px;}
+  h2.sec-title{font-family:'Rokkitt',Georgia,serif;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;font-size:19px;margin:0;color:var(--text);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
+  .auto-item{border-left:3px solid var(--accent);padding:10px 0 10px 14px;}
+  .auto-item + .auto-item{border-top:1px dashed var(--line);}
+  .auto-trig{font-size:12px;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-mute);font-weight:600;}
+  .auto-react{font-size:14.5px;margin-top:3px;}
+  .arrow{color:var(--accent);font-weight:700;}
+  ul.rules{list-style:none;margin:0;padding:0;}
+  ul.rules li{display:flex;gap:10px;padding:9px 0;font-size:14.5px;border-bottom:1px solid var(--line);}
+  ul.rules li > *{min-width:0;}
+  ul.rules li:last-child{border-bottom:none;}
+  ul.rules li::before{content:"—";color:var(--accent);font-weight:700;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#000;font-weight:700;font-size:13px;flex:0 0 auto;}
+  .badge.teal{background:var(--teal);color:#000;}
+  .badge.accent{background:var(--navy);color:var(--accent);border:1px solid var(--accent);}
+  .pos-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;}
+  .pos-txt strong{display:block;font-size:14.5px;}
+  .pos-txt span{font-size:13.5px;color:var(--text-mute);}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:var(--accent);color:#000;margin-bottom:10px;}
+  .tag.teal{background:var(--teal);color:#000;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);}
+  th{color:var(--text-mute);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:0.03em;}
+  .stat-big{font-family:'Rokkitt',Georgia,serif;font-size:26px;font-weight:700;color:var(--accent);}
+  .stat-label{font-size:11.5px;color:var(--text-mute);text-transform:uppercase;letter-spacing:0.03em;}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  .stat-cell{background:var(--cream);border-radius:var(--radius);padding:10px;text-align:center;border:1px solid var(--line);}
+  .tip{background:var(--teal-light);border-left:3px solid var(--teal);border-radius:0 var(--radius) var(--radius) 0;padding:12px 14px;font-size:14px;color:var(--text);margin-bottom:8px;}
+  footer{max-width:600px;margin:20px auto 0;padding:20px 16px 30px;color:var(--text-mute);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;text-align:center;border-top:1px solid var(--line);}
+
+  /* Play diagrams */
+  .play-diagram{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:10px 10px 4px;margin:10px 0 4px;}
+  .play-diagram svg{display:block;width:100%;height:auto;}
+  .pd-static svg text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .pd-steps{margin:10px 0 6px;padding-left:22px;font-size:12.5px;line-height:1.45;}
+  .pd-steps li{margin-bottom:5px;}
+  .pd-steps li::marker{color:var(--accent);font-weight:700;}
+  .pd-nojs-hint{font-size:10.5px;color:var(--text-mute);padding-bottom:8px;font-style:italic;}
+  .pd-finisher-ring{animation:pd-pulse 1.4s ease-in-out infinite;}
+  @keyframes pd-pulse{0%,100%{opacity:0.55;} 50%{opacity:1;}}
+  .pd-caption{font-size:13px;color:var(--text);min-height:34px;padding:8px 2px 4px;line-height:1.4;}
+  .pd-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:8px;}
+  .pd-btn{border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:12.5px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:8px 14px;border-radius:20px;flex:1;}
+  .pd-btn:disabled{border-color:var(--line);color:var(--text-mute);}
+  .pd-step-label{font-size:11px;color:var(--text-mute);white-space:nowrap;min-width:56px;text-align:center;}
+  .pd-branch-box{display:none;flex-wrap:wrap;gap:8px;padding-bottom:10px;}
+  .pd-branch-box.active{display:flex;}
+  .pd-btn-branch{flex:1 1 calc(50% - 8px);min-width:130px;background:var(--accent);color:#000;border:1px solid var(--accent);font-size:12px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;padding:10px 12px;border-radius:20px;}
+  .pd-btn-branch:disabled{background:var(--line);border-color:var(--line);color:var(--text-mute);}
+</style>
+</head>
+<body>
+{% block content %}{% endblock %}
+<footer>{% block footer %}<b style="color:var(--text)">Baskets Feldkirch</b> · got game since 1997 · <a href="https://www.baskets.at/" style="color:var(--accent);text-decoration:none;">baskets.at</a><br>Team Playbook · Saison {{ season }}{% endblock %}</footer>
+</body>
+</html>

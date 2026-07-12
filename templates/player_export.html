@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Playbook — {{ player.name }}{% endblock %}
+{% block apptitle %}{{ player.name }}{% endblock %}
+{% block content %}
+<header class="hero">
+  <div class="hero-inner">
+    {% if logo_uri %}
+    <div class="brand">
+      <img src="{{ logo_uri }}" alt="Baskets Feldkirch Logo">
+      <div class="wordmark">Baskets<br>Feldkirch<span>got game since 1997</span></div>
+    </div>
+    {% endif %}
+    <div class="eyebrow">Saison {{ season }} · #{{ player.jersey }}</div>
+    <h1 class="title">{{ player.name }}</h1>
+    <p class="subtitle">{{ player.offense_role_label }} (Offense, Position {{ player.offense_role }}) · {{ player.defense_role_label }} ({{ player.defense_role }}) im 2-2-1 Press</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Deine Rolle</h2></div>
+    <div class="card">
+      <div class="stat-grid">
+        <div class="stat-cell"><div class="stat-big">{{ player.offense_role }}</div><div class="stat-label">{{ player.offense_role_label }}</div></div>
+        <div class="stat-cell"><div class="stat-big">{{ player.defense_role }}</div><div class="stat-label">{{ player.defense_role_label }}</div></div>
+        <div class="stat-cell"><div class="stat-big">#{{ player.jersey }}</div><div class="stat-label">Trikot</div></div>
+      </div>
+    </div>
+    <span class="tag">Stärken</span>
+    <div class="card">{{ player.strengths | join(", ") }}</div>
+    <span class="tag teal">Fokusbereiche</span>
+    <div class="card">{{ player.focus_areas | join(", ") }}</div>
+  </section>
+
+  {% if stats %}
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Deine Saisonwerte</h2></div>
+    <div class="card">
+      <div class="stat-grid">
+        <div class="stat-cell"><div class="stat-big">{{ stats.avg_points }}</div><div class="stat-label">Punkte/Spiel</div></div>
+        <div class="stat-cell"><div class="stat-big">{{ stats.avg_rebounds }}</div><div class="stat-label">Rebounds/Spiel</div></div>
+        <div class="stat-cell"><div class="stat-big">{{ stats.avg_assists }}</div><div class="stat-label">Assists/Spiel</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <tr><th>Datum</th><th>Gegner</th><th>Min</th><th>Pkt</th><th>Reb</th><th>Ast</th><th>TO</th></tr>
+        {% for g in stats.games %}
+        <tr><td>{{ g.game_date }}</td><td>{{ g.opponent }}</td><td>{{ g.minutes }}</td><td>{{ g.points }}</td><td>{{ g.rebounds }}</td><td>{{ g.assists }}</td><td>{{ g.turnovers }}</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Persönliche Trainingstipps</h2></div>
+    {% for tip in stats.tips %}
+    <div class="tip">{{ tip }}</div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Fundamentals</h2></div>
+    <div class="card">
+      {% for f in fundamentals %}
+      <p style="margin:0 0 10px;font-size:14px;"><strong>{{ f.title }}</strong><br><span style="color:var(--text-mute)">{{ f.text }}</span></p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Offensive Automatics — Read & React</h2></div>
+    {% for cat in read_react %}
+    <span class="tag">{{ cat.title }}</span>
+    <div class="card">
+      <p style="margin:0 0 10px;font-size:13.5px;color:var(--text-mute)">{{ cat.intro }}</p>
+      <ul class="rules">
+        {% for item in cat['items'] %}<li>{{ item }}</li>{% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">8-Sekunden-Offense</h2></div>
+    <div class="card">
+      {% for ph in offense_8sec.phases %}
+      <p style="margin:0 0 10px;font-size:14px;"><strong>{{ ph.time }} · {{ ph.title }}</strong><br><span style="color:var(--text-mute)">{{ ph.text }}</span></p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">2-2-1 Zone Press</h2></div>
+    <div class="card">
+      {% for pos in defense_221.positions %}
+      <div class="pos-row"><div class="badge{% if loop.index==2 %} teal{% elif loop.index==3 %} accent{% endif %}">{{ pos.role }}</div><div class="pos-txt"><strong>{{ pos.label }}</strong><span>{{ pos.text }}</span></div></div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Goldene Regeln</h2></div>
+    <div class="card">
+      <ul class="rules">
+        {% for r in golden_rules %}<li>{{ r }}</li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+
+</main>
+{% endblock %}

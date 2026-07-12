@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Coach Dashboard{% endblock %}
+{% block apptitle %}Dashboard{% endblock %}
+{% block content %}
+<header class="hero">
+  <div class="hero-inner">
+    {% if logo_uri %}
+    <div class="brand">
+      <img src="{{ logo_uri }}" alt="Baskets Feldkirch Logo">
+      <div class="wordmark">Baskets<br>Feldkirch<span>got game since 1997</span></div>
+    </div>
+    {% endif %}
+    <div class="eyebrow">Saison {{ season }} · Nur für dich</div>
+    <h1 class="title">Coach Dashboard</h1>
+    <p class="subtitle">Team-Übersicht mit Rollen und Saisonstatistiken — Basis für Aufstellung und Feedback.</p>
+  </div>
+</header>
+<main class="wrap">
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Team-Statistiken</h2></div>
+    <div class="card">
+      <table>
+        <tr><th>Spieler</th><th>Rolle</th><th>Spiele</th><th>Pkt Ø</th><th>Reb Ø</th><th>Ast Ø</th><th>TO Ø</th></tr>
+        {% for row in team_stats %}
+        <tr>
+          <td>#{{ row.jersey }} {{ row.name }}</td>
+          <td>{{ row.offense_role }} / {{ row.defense_role }}</td>
+          <td>{{ row.games }}</td>
+          <td>{{ row.avg_points }}</td>
+          <td>{{ row.avg_rebounds }}</td>
+          <td>{{ row.avg_assists }}</td>
+          <td>{{ row.avg_turnovers }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Automatisch erkannte Auffälligkeiten</h2></div>
+    {% for note in flagged %}
+    <div class="tip">{{ note }}</div>
+    {% endfor %}
+    {% if not flagged %}
+    <div class="card">Aktuell keine Auffälligkeiten über den Schwellwerten.</div>
+    {% endif %}
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Spieler-Exports</h2></div>
+    <div class="card">
+      {% for p in players %}
+      <p style="margin:0 0 6px;font-size:14px;">→ <code>exports/players/{{ p.id }}.html</code> — {{ p.name }}</p>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}

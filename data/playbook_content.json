@@ -1,0 +1,960 @@
+{
+  "season": "2026",
+  "fundamentals": [
+    { "title": "Stance & Fußarbeit", "text": "Tiefe Knie, Rücken gerade, Gewicht auf den Fußballen. Jump-Stop immer beidbeinig." },
+    { "title": "Ballhandling", "text": "Kopf oben, Ball außerhalb der Hüftbreite führen. Bei Druck sofort die Hand wechseln." },
+    { "title": "Passing", "text": "Brustpass mit Schrittsprung ist der Standard. Immer in die Laufrichtung des Mitspielers passen." },
+    { "title": "1-gegen-1-Verteidigung", "text": "Ballseitige Hand hoch, Körper zwischen Gegner und Korb. Kleine Schiebeschritte, nie kreuzen." },
+    { "title": "Boxout & Rebound", "text": "Erst Kontakt herstellen, dann erst zum Ball springen. Ellbogen raus, beide Hände zum Ball." }
+  ],
+  "read_react_intro": {
+    "quote": "Most teams are OVERCOACHED but UNDERTRAINED.",
+    "cite": "Markus Pinezich — Automatics in Basketball",
+    "text": "Wir drillen keine starren Plays (Roboter-Basketball), sondern fundamentale Prinzipien. Unsere Automatics greifen immer dann, wenn ein System zusammenbricht oder wir im freien Spiel agieren. Automatics zu drillen ist im Jugendbereich wichtiger, als Plays zu drillen.",
+    "goal": "Offensives Ziel: der hochprozentige Wurf — alle bewegen sich nach denselben Prinzipien und erzeugen Vorteile über Spacing, Timing und Angles.",
+    "golden_six": [
+      "1) Fast Break — siehe 8-Sekunden-Offense",
+      "2) Penetration (Zug zum Korb)",
+      "3) Inside (Post-Up)",
+      "4) Off Ball Screens (individuell + Team-Automatics)",
+      "5) Pick and Roll",
+      "6) Set / Motion — siehe Methodik auf der Übungsseite"
+    ]
+  },
+  "read_react": [
+    {
+      "title": "Penetration (Zug zum Korb)",
+      "intro": "Spacing heißt: immer ein potenzieller Passempfänger sein. Zu keinem Zeitpunkt des Spiels kann ein Verteidiger zwei Angreifer gleichzeitig decken! Nach dem Drive füllen alle automatisch die Positionen auf.",
+      "items": [
+        "Corner (Ecke) — Tiefe Absicherung an der Dreierlinie für den Base-Pass.",
+        "45° (Flügel) — Anspielstation im klassischen 45-Grad-Winkel oberhalb der Dreierlinie.",
+        "Inside (Dunker Spot / Center) — Bei Baseline-Drive rotiert der Big Man hoch zur Freiwurflinie. Bei Middle-Drive taucht er ab in die kurze Ecke (Short Corner).",
+        "Filler (Sicherheits-Guard) — Der höchste Guard wartet, bis der Driver seine Bahn kreuzt, und füllt dann den verlassenen Top-Key als Absicherung auf."
+      ],
+      "diagrams": [
+        {
+          "label": "Baseline-Drive",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 260, "y": 152 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 248, "y": 168 },
+            { "id": "O2", "team": "O", "label": "2", "x": 150, "y": 115 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 150, "y": 135 },
+            { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 50, "y": 168 },
+            { "id": "O4", "team": "O", "label": "4", "x": 278, "y": 308 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 258, "y": 307 },
+            { "id": "O5", "team": "O", "label": "5", "x": 95, "y": 295 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 115, "y": 296 }
+          ],
+          "steps": [
+            { "caption": "O1 attackiert baseline und schlägt X1 mit dem ersten Schritt — X1 leuchtet rot (geschlagen) und friert für diesen Moment ein.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 280, "y": 248 }, "via": { "x": 291, "y": 196 } }, { "type": "beat", "id": "X1" } ] },
+            { "caption": "O1 zieht straight zum Korb. Gleichzeitig rotiert die Offense: O5 hoch zur Freiwurflinie, O2 füllt den Flügel, O3 den Top-Key.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 218, "y": 294 }, "via": { "x": 266, "y": 296 } }, { "type": "move", "id": "O5", "to": { "x": 150, "y": 218 } }, { "type": "move", "id": "O2", "to": { "x": 250, "y": 148 }, "via": { "x": 205, "y": 108 } }, { "type": "move", "id": "O3", "to": { "x": 150, "y": 118 }, "via": { "x": 80, "y": 118 } } ] }
+          ],
+          "branch": {
+            "prompt": "Kommt Hilfe von X4, oder recovert X1 rechtzeitig?",
+            "options": [
+              {
+                "label": "Option A · Hilfe kommt",
+                "steps": [
+                  { "caption": "Hilfe (gold): X4 verlässt O4, sucht den Intercept auf der Drive-Lane und ist ab jetzt der primäre Verteidiger am Ball. X1 sprintet im Recover hinterher.", "actions": [ { "type": "help", "id": "X4", "target": "O1" } ] },
+                  { "caption": "X4 steht im Intercept zwischen O1 und Korb — aber O4 ist dadurch frei in der Ecke. O1 kickt raus zum offenen Abschluss.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
+                ]
+              },
+              {
+                "label": "Option B · Keine Hilfe nötig",
+                "steps": [
+                  { "caption": "X1 recovert rechtzeitig und kontestiert direkt am Ring, X4 bleibt bei O4 — keine Hilfe nötig. O1 zieht trotzdem durch den Kontakt ab.", "actions": [ { "type": "move", "id": "X1", "to": { "x": 198, "y": 295 } } ] }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "Middle-Drive",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 115 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 135 },
+            { "id": "O2", "team": "O", "label": "2", "x": 260, "y": 155 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 248, "y": 171 },
+            { "id": "O3", "team": "O", "label": "3", "x": 40, "y": 155 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 52, "y": 171 },
+            { "id": "O4", "team": "O", "label": "4", "x": 278, "y": 308 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 258, "y": 307 },
+            { "id": "O5", "team": "O", "label": "5", "x": 185, "y": 230 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 176, "y": 248 }
+          ],
+          "steps": [
+            { "caption": "O1 schlägt X1 durch die Mitte — X1 leuchtet rot (geschlagen) und friert für diesen Moment ein. O1 zieht in die Zone.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 140, "y": 262 }, "via": { "x": 108, "y": 200 } }, { "type": "beat", "id": "X1" } ] },
+            { "caption": "O5 will zum Korb abtauchen, aber X5 blockt den direkten Weg — O5 weicht in die Short Corner aus. O2 füllt als Filler nach oben, X2/X3 rotieren automatisch mit ihren Spielern mit.", "actions": [ { "type": "move", "id": "O5", "to": { "x": 232, "y": 322 }, "via": { "x": 172, "y": 272 } }, { "type": "move", "id": "O2", "to": { "x": 150, "y": 118 }, "via": { "x": 205, "y": 130 } } ] }
+          ],
+          "branch": {
+            "prompt": "Kommt Hilfe von X4, oder recovert X1 rechtzeitig?",
+            "options": [
+              {
+                "label": "Option A · Hilfe kommt",
+                "steps": [
+                  { "caption": "Der Drive zwingt X4 zur Hilfe (gold): er verlässt O4, stellt sich auf die Drive-Lane und übernimmt O1 als primärer Verteidiger. X1 recovert hinterher.", "actions": [ { "type": "help", "id": "X4", "target": "O1" } ] },
+                  { "caption": "X4 steht zwischen O1 und Korb — O4 dadurch frei in der Ecke. O1 kickt zum offenen O4.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
+                ]
+              },
+              {
+                "label": "Option B · Keine Hilfe nötig",
+                "steps": [
+                  { "caption": "X1 recovert rechtzeitig, X4 bleibt bei O4 — keine Hilfe nötig. O1 muss den kontestierten Wurf aus der Zone nehmen.", "actions": [ { "type": "move", "id": "X1", "to": { "x": 145, "y": 281 } } ] }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Inside (Post-Up / Centerspiel)",
+      "intro": "Es muss ausreichend Platz für das 1-gegen-1 des Innenspielers geschaffen werden. Ziel sind Inside-Out-Pässe für hochprozentige Dreier, falls die Helfer absinken.",
+      "items": [
+        "Quick Move — Nach dem Pass nach innen halten die Außenspieler kurz die Position. Der Big Man hat ca. 1 Sekunde Zeit für eine schnelle 1-gegen-1-Aktion.",
+        "Screen / Cut & Fill — Erfolgt kein schneller Abschluss: Der Passgeber schneidet zum Korb (Baseline-Cut) oder stellt einen Guard-to-Guard-Screen, während die Positionen neu aufgefüllt werden."
+      ],
+      "diagrams": [
+        {
+          "label": "Cut & Fill",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 260, "y": 152 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 240, "y": 168 },
+            { "id": "O2", "team": "O", "label": "2", "x": 150, "y": 115 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 150, "y": 140 },
+            { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 168 },
+            { "id": "O4", "team": "O", "label": "4", "x": 22, "y": 308 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 45, "y": 292 },
+            { "id": "O5", "team": "O", "label": "5", "x": 208, "y": 282 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 198, "y": 305 }
+          ],
+          "steps": [
+            { "caption": "O1 spielt auf O5 in den Post an — X5 verteidigt hinter/seitlich am Pfosten.", "actions": [ { "type": "pass", "from": "O1", "to": "O5" } ] }
+          ],
+          "branch": {
+            "prompt": "Nutzt O5 die schnelle 1-gegen-1-Chance (ca. 1 Sekunde)?",
+            "options": [
+              {
+                "label": "Option A · Direkter Abschluss",
+                "steps": [
+                  { "caption": "O5 nutzt die freie Bahn sofort zum Abschluss im Post — alle anderen halten kurz die Position.", "actions": [] }
+                ]
+              },
+              {
+                "label": "Option B · Cut & Fill",
+                "steps": [
+                  { "caption": "Quick Move — O5 findet keine gute 1-gegen-1-Chance gegen X5. Alle anderen halten kurz die Position.", "actions": [] },
+                  { "caption": "Ohne Abschluss: O1 schneidet außen um O5 zur Grundlinie (Baseline-Cut), O2 füllt den Flügel, O3 füllt den Top-Key auf.", "actions": [ { "type": "cut", "id": "O1", "to": { "x": 158, "y": 322 }, "via": { "x": 285, "y": 300 } }, { "type": "move", "id": "O2", "to": { "x": 258, "y": 150 }, "via": { "x": 206, "y": 100 } }, { "type": "move", "id": "O3", "to": { "x": 150, "y": 118 }, "via": { "x": 80, "y": 118 } }, { "type": "move", "id": "X1", "to": { "x": 170, "y": 305 } }, { "type": "move", "id": "X2", "to": { "x": 240, "y": 170 } }, { "type": "move", "id": "X3", "to": { "x": 150, "y": 140 } } ] }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "Guard-to-Guard-Screen",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 40, "y": 155 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 60, "y": 165 },
+            { "id": "O5", "team": "O", "label": "5", "x": 100, "y": 260 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 112, "y": 238 },
+            { "id": "O2", "team": "O", "label": "2", "x": 258, "y": 118 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 240, "y": 132 },
+            { "id": "O4", "team": "O", "label": "4", "x": 150, "y": 115 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 150, "y": 140 },
+            { "id": "O3", "team": "O", "label": "3", "x": 278, "y": 240 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 258, "y": 225 }
+          ],
+          "steps": [
+            { "caption": "O1 spielt von links auf O5 in den Post an.", "actions": [ { "type": "pass", "from": "O1", "to": "O5" } ] },
+            { "caption": "Statt zu schneiden stellt O4 den Guard-to-Guard-Screen für O2, nah an der Dreierlinie.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 196, "y": 120 } } ] }
+          ],
+          "branch": {
+            "prompt": "Wie verteidigt X2 den Block?",
+            "options": [
+              {
+                "label": "Option A · Fightet über den Block",
+                "steps": [
+                  { "caption": "X2 fightet über den Block — O2 läuft trotzdem eng daran vorbei Richtung Korb, O3 füllt hinter ihm auf.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 140 }, "via": { "x": 218, "y": 80 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 } } ] },
+                  { "caption": "O5 spielt den Inside-Out- oder Handoff-Pass auf den Cutter.", "actions": [ { "type": "pass", "from": "O5", "to": "O2" } ] }
+                ]
+              },
+              {
+                "label": "Option B · Switch",
+                "steps": [
+                  { "caption": "Switch: X2 und X4 tauschen (beide kurz rot) — O2 läuft trotzdem eng um den Block, X4 übernimmt jetzt auf dem Perimeter, X2 rutscht auf O4 in der Zone.", "actions": [ { "type": "switch", "players": ["X2", "X4"] }, { "type": "cut", "id": "O2", "to": { "x": 175, "y": 250 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "X4", "to": { "x": 165, "y": 200 } }, { "type": "move", "id": "X2", "to": { "x": 196, "y": 145 } }, { "type": "move", "id": "O3", "to": { "x": 245, "y": 140 } } ] },
+                  { "caption": "Mismatch ausgenutzt: X4 (eigentlich Innenverteidiger) kommt auf dem Perimeter nicht mit — O5 findet O2 zum offenen Distanzwurf.", "actions": [ { "type": "pass", "from": "O5", "to": "O2" } ] }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "Cut & Fill (Variante 2 — Basket Cut)",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 260, "y": 152 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 240, "y": 168 },
+            { "id": "O5", "team": "O", "label": "5", "x": 208, "y": 282 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 198, "y": 305 },
+            { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 168 },
+            { "id": "O2", "team": "O", "label": "2", "x": 150, "y": 115 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 150, "y": 140 },
+            { "id": "O4", "team": "O", "label": "4", "x": 22, "y": 308 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 45, "y": 292 }
+          ],
+          "steps": [
+            { "caption": "O1 spielt auf O5 in den Post an — X5 verteidigt hinter/seitlich am Pfosten.", "actions": [ { "type": "pass", "from": "O1", "to": "O5" } ] }
+          ],
+          "branch": {
+            "prompt": "Nutzt O5 die schnelle 1-gegen-1-Chance (ca. 1 Sekunde)?",
+            "options": [
+              {
+                "label": "Option A · Direkter Abschluss",
+                "steps": [
+                  { "caption": "O5 nutzt die freie Bahn sofort zum Abschluss im Post — alle anderen halten kurz die Position.", "actions": [] }
+                ]
+              },
+              {
+                "label": "Option B · Basket Cut",
+                "steps": [
+                  { "caption": "Statt der Baseline-Cut-Variante schneidet diesmal O3 von der schwachen Seite unter dem Korb durch die Zone (Basket Cut) — X3 verliert den Kontakt komplett und kann nicht mehr zurück, O3 läuft durch bis in die 3PT-Corner.", "actions": [ { "type": "cut", "id": "O3", "to": { "x": 284, "y": 320 }, "via": { "x": 160, "y": 270 } }, { "type": "move", "id": "X3", "to": { "x": 165, "y": 200 }, "via": { "x": 140, "y": 235 } } ] },
+                  { "caption": "O3 steht frei in der Ecke, X3 ist zu weit weg, um zu helfen — O5 spielt den Pass in die Corner.", "actions": [ { "type": "pass", "from": "O5", "to": "O3" } ] }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Off Ball Screens (Blöcke abseits des Balls)",
+      "intro": "Spieler müssen lernen, das Verhalten ihres Verteidigers am Block richtig zu lesen — Read & React. Dazu kommen zwei feste Team-Automatics: Staggered und Zipper.",
+      "items": [
+        "Curl (Einschneiden) — Verteidiger läuft über den Block hinterher → enger Schnitt direkt zum Korb.",
+        "Flare (Absetzen) — Verteidiger antizipiert und kürzt ab → über den Block hinweg nach außen zum Flügel/zur Ecke absetzen.",
+        "BD Cut (Backdoor Cut) — Verteidiger überbeißt den Passweg extrem (Deny) → Täuschungsschritt nach außen und harter Schnitt im Rücken zum Korb.",
+        "Staggered Automatics (Team) — Zwei gestaffelte Blöcke hintereinander für denselben Cutter; der erste Blocksteller taucht danach zum Korb ab.",
+        "Zipper (Team) — Cutter kommt vom Block über einen Down-Screen senkrecht nach oben (Zipper-Cut) und erhält den Ball am Elbow/Flügel."
+      ],
+      "diagrams": [
+        {
+          "label": "Curl / Flare",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 115 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 140 },
+            { "id": "O2", "team": "O", "label": "2", "x": 280, "y": 306 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 238, "y": 278 },
+            { "id": "O4", "team": "O", "label": "4", "x": 205, "y": 188 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 205, "y": 216 },
+            { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 165 },
+            { "id": "O5", "team": "O", "label": "5", "x": 85, "y": 290 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 98, "y": 268 }
+          ],
+          "steps": [
+            { "caption": "O4 stellt den Down-Screen für O2.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 232, "y": 250 } } ] }
+          ],
+          "branch": {
+            "prompt": "Wie verteidigt X2 den Block?",
+            "options": [
+              {
+                "label": "Option A · Curl",
+                "steps": [
+                  { "caption": "X2 läuft über den Block hinterher → O2 curlt eng um den Block Richtung Zone. O4 taucht nach dem Block sofort zum Korb ab, jetzt auf der anderen Seite von X2 — X4 muss absinken, hat aber gegen O2 und O4 gleichzeitig keine Chance (2-gegen-1).", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 178, "y": 238 }, "via": { "x": 259, "y": 208 } }, { "type": "move", "id": "X2", "to": { "x": 216, "y": 246 }, "via": { "x": 279, "y": 247 } }, { "type": "cut", "id": "O4", "to": { "x": 170, "y": 285 }, "via": { "x": 215, "y": 270 } }, { "type": "move", "id": "X4", "to": { "x": 190, "y": 255 } } ] },
+                  { "caption": "O1 spielt den Pass in den Curl — O4 wäre als zweite Option ebenso frei zum Korb.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
+                ]
+              },
+              {
+                "label": "Option B · Flare",
+                "steps": [
+                  { "caption": "X2 antizipiert und taucht unter dem Block durch (baselineseitig) → O2 erkennt das und flared außen am Block vorbei nach oben zum Flügel, statt hindurchzulaufen.", "actions": [ { "type": "move", "id": "X2", "to": { "x": 215, "y": 260 } }, { "type": "cut", "id": "O2", "to": { "x": 255, "y": 175 }, "via": { "x": 270, "y": 235 } } ] },
+                  { "caption": "O1 wirft den Flare-Pass über die Defense zu O2.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "Backdoor Cut",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 115 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 140 },
+            { "id": "O2", "team": "O", "label": "2", "x": 240, "y": 140 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 230, "y": 157, "manual": true },
+            { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 165 },
+            { "id": "O4", "team": "O", "label": "4", "x": 22, "y": 308 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 45, "y": 292 },
+            { "id": "O5", "team": "O", "label": "5", "x": 85, "y": 290 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 98, "y": 268 }
+          ],
+          "steps": [
+            { "caption": "X2 steht zunächst normal zwischen O2 und dem Korb. Jetzt jumpt er extrem in den Passweg (Deny) — genau dadurch geht die Korbseite hinter ihm auf.", "actions": [ { "type": "move", "id": "X2", "to": { "x": 218, "y": 118 } } ] }
+          ],
+          "branch": {
+            "prompt": "Bleibt X2 im extremen Deny?",
+            "options": [
+              {
+                "label": "Option A · Backdoor öffnet sich",
+                "steps": [
+                  { "caption": "O2 täuscht einen Schritt nach außen an, um X2 noch enger zu ziehen.", "actions": [ { "type": "move", "id": "O2", "to": { "x": 258, "y": 128 } } ] },
+                  { "caption": "O2 schneidet hart im Rücken von X2 zum Korb (Backdoor).", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 185, "y": 298 }, "via": { "x": 262, "y": 205 } } ] },
+                  { "caption": "Erst nachdem O2 den Cut committet hat, spielt O1 den Lob-Pass in den Laufweg zum Korb — nicht vorher, sonst wäre er noch nach außen zu X2 unterwegs.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
+                ]
+              },
+              {
+                "label": "Option B · X2 spielt ehrlich",
+                "steps": [
+                  { "caption": "X2 gibt die Overplay-Position auf und verteidigt wieder normal — kein Backdoor nötig, O1 spielt einfach den direkten Entry-Pass.", "actions": [ { "type": "move", "id": "X2", "to": { "x": 230, "y": 157 } }, { "type": "pass", "from": "O1", "to": "O2" } ] }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "Staggered Automatics",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 260, "y": 152 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 240, "y": 168 },
+            { "id": "O2", "team": "O", "label": "2", "x": 55, "y": 110 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 72, "y": 125 },
+            { "id": "O5", "team": "O", "label": "5", "x": 100, "y": 240 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 108, "y": 258 },
+            { "id": "O4", "team": "O", "label": "4", "x": 165, "y": 260 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 170, "y": 278 },
+            { "id": "O3", "team": "O", "label": "3", "x": 20, "y": 300 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 40, "y": 288 }
+          ],
+          "steps": [
+            { "caption": "O5 und O4 stellen zwei gestaffelte Blöcke (Staggered) quer durch die Zone.", "actions": [ { "type": "screen", "id": "O5", "to": { "x": 108, "y": 228 } }, { "type": "screen", "id": "O4", "to": { "x": 170, "y": 248 } } ] },
+            { "caption": "X2 kämpft über den ersten Block — O2 läuft trotzdem eng um O5...", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 135, "y": 235 }, "via": { "x": 40, "y": 150 } }, { "type": "move", "id": "X2", "to": { "x": 115, "y": 210 }, "via": { "x": 60, "y": 175 } } ] },
+            { "caption": "...und um den zweiten Block (O4) in die ballseitige Ecke — X2 hängt fest.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 280, "y": 300 }, "via": { "x": 165, "y": 205 } }, { "type": "move", "id": "X2", "to": { "x": 200, "y": 240 }, "via": { "x": 155, "y": 225 } } ] }
+          ],
+          "branch": {
+            "prompt": "Ist O2 in der Ecke offen?",
+            "options": [
+              {
+                "label": "Option A · Direkter Wurf",
+                "steps": [
+                  { "caption": "O1 passt auf O2 in der Ecke — offener Distanzwurf.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
+                ]
+              },
+              {
+                "label": "Option B · Zweite Option (O5)",
+                "steps": [
+                  { "caption": "O2 ist zu gut bewacht — O5 taucht nach dem ersten Block zum Korb ab, O1 findet ihn direkt.", "actions": [ { "type": "cut", "id": "O5", "to": { "x": 130, "y": 288 }, "via": { "x": 108, "y": 260 } }, { "type": "pass", "from": "O1", "to": "O5" } ] }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "label": "Zipper",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 260, "y": 152 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 240, "y": 178 },
+            { "id": "O2", "team": "O", "label": "2", "x": 192, "y": 295 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 172, "y": 297 },
+            { "id": "O5", "team": "O", "label": "5", "x": 196, "y": 235 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 184, "y": 251 },
+            { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 165 },
+            { "id": "O4", "team": "O", "label": "4", "x": 22, "y": 308 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 45, "y": 292 }
+          ],
+          "steps": [
+            { "caption": "O5 stellt den Down-Screen am Block (Zipper-Screen) gegen X2. X5 bleibt eng an O5 dran.", "actions": [ { "type": "screen", "id": "O5", "to": { "x": 202, "y": 268 } }, { "type": "move", "id": "X5", "to": { "x": 198, "y": 255 } } ] },
+            { "caption": "O2 zippt eng um den Block senkrecht nach oben zum Elbow — X2 rotiert mit nach oben mit.", "actions": [ { "type": "cut", "id": "O2", "to": { "x": 198, "y": 120 }, "via": { "x": 215, "y": 200 } }, { "type": "move", "id": "X2", "to": { "x": 185, "y": 200 } } ] }
+          ],
+          "branch": {
+            "prompt": "Ist O2 am Elbow offen?",
+            "options": [
+              {
+                "label": "Option A · Catch and Shoot",
+                "steps": [
+                  { "caption": "O1 passt auf O2 am Elbow — offener Wurf.", "actions": [ { "type": "pass", "from": "O1", "to": "O2" } ] }
+                ]
+              },
+              {
+                "label": "Option B · O5 rollt",
+                "steps": [
+                  { "caption": "X2 staut den Passweg zum Elbow — O5 rollt stattdessen nach dem Screen tief zum Korb ab, O1 findet ihn direkt.", "actions": [ { "type": "cut", "id": "O5", "to": { "x": 165, "y": 300 }, "via": { "x": 185, "y": 285 } }, { "type": "move", "id": "X5", "to": { "x": 178, "y": 282 } }, { "type": "pass", "from": "O1", "to": "O5" } ] }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Pick and Roll Automatics",
+      "intro": "Wir unterscheiden 2 Schritte. Schritt 1 — Spacing Reads: Wie bewegt man sich ohne Ball, während das P&R läuft — Big-to-Big-Movement (4 OUT – 1 IN). Schritt 2 — Tactical Reads: Konter für Hard Hedge und Switch (Details siehe Clinic-Video).",
+      "items": [
+        "Pick and Roll (Einer rollt ab) — Der zweite Big Man verlässt sofort den Raum unter dem Korb, der Corner Guard rotiert als Filler nach oben.",
+        "Pick and Pop (Blocksteller poppt) — Der zweite Big Man orientiert sich nach unten unter bzw. auf die Korb-Linie.",
+        "Hard Hedge Automatics — Konter für aggressives Heraustreten des gegnerischen Big-Man-Verteidigers.",
+        "Switch Automatics — Konter für defensives Tauschen der Gegenspieler, um ein Mismatch auszunutzen."
+      ],
+      "diagrams": [
+        {
+          "label": "Roll / Pop",
+          "court": "half",
+          "guardEngine": true,
+          "ball": "O1",
+          "players": [
+            { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 112 },
+            { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 138 },
+            { "id": "O4", "team": "O", "label": "4", "x": 190, "y": 150 },
+            { "id": "X4", "team": "X", "label": "X4", "x": 190, "y": 175 },
+            { "id": "O5", "team": "O", "label": "5", "x": 90, "y": 290 },
+            { "id": "X5", "team": "X", "label": "X5", "x": 105, "y": 270 },
+            { "id": "O2", "team": "O", "label": "2", "x": 280, "y": 300 },
+            { "id": "X2", "team": "X", "label": "X2", "x": 260, "y": 282 },
+            { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+            { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 165 }
+          ],
+          "steps": [
+            { "caption": "O4 stellt den Ball-Screen ganz nah an X1, direkt an der Dreierlinie.", "actions": [ { "type": "screen", "id": "O4", "to": { "x": 172, "y": 132 } } ] }
+          ],
+          "branch": {
+            "prompt": "Wie verteidigt X4 den Screen — und was macht O4 danach?",
+            "options": [
+              {
+                "label": "Option A · Switch → Roll",
+                "steps": [
+                  { "caption": "Verteidigung switcht (beide kurz rot): X4 zeigt schon während des Screens auf O1, X1 hängt am Block fest.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 205, "y": 145 }, "via": { "x": 198, "y": 95 } }, { "type": "switch", "players": ["X1", "X4"] }, { "type": "move", "id": "X4", "to": { "x": 188, "y": 150 } } ] },
+                  { "caption": "Switch komplett: X4 übernimmt O1 auf dessen direkter Korblinie. X1 wechselt auf die Rolle von O4, kommt aber im Rücken — die kleine Nummer 1 kann den großen O4 unter dem Korb nicht mehr stoppen, deshalb muss X5 von O5 helfen. Dadurch räumt O5 sofort den Raum, O2 (Corner Guard) rotiert als Filler hoch.", "actions": [ { "type": "cut", "id": "O4", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } }, { "type": "move", "id": "X4", "to": { "x": 197, "y": 168 } }, { "type": "move", "id": "X1", "to": { "x": 175, "y": 230 } }, { "type": "move", "id": "O5", "to": { "x": 42, "y": 210 } }, { "type": "move", "id": "O2", "to": { "x": 265, "y": 205 } }, { "type": "move", "id": "X5", "to": { "x": 165, "y": 270 } } ] },
+                  { "caption": "O1 findet den rollenden O4 mit dem Pass, bevor X5 vollständig helfen kann.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
+                ]
+              },
+              {
+                "label": "Option B · Hedge → Pop",
+                "steps": [
+                  { "caption": "Verteidigung hedged (Show): X1 kämpft über den Screen, X4 zeigt kurz heraus, um O1 zusätzlich zu verlangsamen — kein Switch.", "actions": [ { "type": "dribble", "id": "O1", "to": { "x": 120, "y": 155 }, "via": { "x": 190, "y": 110 } }, { "type": "move", "id": "X4", "to": { "x": 200, "y": 150 } } ] },
+                  { "caption": "O4 poppt nach außen zur Dreierlinie — X4 muss aus dem Hedge zurück weit hinterherschließen. O5 (zweiter Big) orientiert sich nach unten an die Korb-Linie.", "actions": [ { "type": "move", "id": "O4", "to": { "x": 245, "y": 118 }, "via": { "x": 215, "y": 100 } }, { "type": "move", "id": "O5", "to": { "x": 150, "y": 310 } }, { "type": "move", "id": "X4", "to": { "x": 225, "y": 135 } } ] },
+                  { "caption": "X4 kommt aus dem Hedge zu spät zurück — O1 findet O4 zum offenen Distanzwurf.", "actions": [ { "type": "pass", "from": "O1", "to": "O4" } ] }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "methodik": {
+    "text": "Motion Offense hilft dem Team, Struktur und Spielfluss beizubehalten, wenn ein primäres System gestoppt wurde — sie ist das Endprodukt gebrochener Plays (→ Transition/Secondary). Das System muss zwingend auf den individuellen Team-Charakter angepasst sein und muss Ball-Reversal (Seitenwechsel des Balls) erzeugen.",
+    "teaching": [
+      "Warm-up — Automatics fest und täglich ins Aufwärmprogramm einbauen (hohe Wiederholungsrate).",
+      "Verteidigungs-Nachteil — Um richtige Entscheidungen unter Stress zu erzwingen, gibt man der Defense gezielt ein Handicap."
+    ]
+  },
+  "drills": [
+    { "num": "01", "name": "Fastbreak Automatics (mit Outlet Pass)", "tag": "3 Spieler", "text": "Rebound/Inbound → schneller Outlet-Pass auf den Aufbau. Die Flügel besetzen die Außenbahnen, der Big Man sprintet die Korb-Lane. Wer den Pass bekommen hat, dribbelt 1–2 Schritte Richtung Mitte und passt dann zum Flügelspieler. Dann entweder 3er oder zum Big Man passen." },
+    { "num": "02", "name": "Inside Automatics Drill", "tag": "", "text": "Pass nach innen auf den Big Man. Der Passgeber stellt sofort einen Block abseits des Balls für den herbeieilenden Guard, während der Big Man das 1-gegen-1 spielt oder den Inside-Out-Pass kickt." },
+    { "num": "03", "name": "Penetration Automatics Drill", "tag": "", "text": "Gezielter Drive vom Flügel aus. Die Mitspieler rotieren synchron: Der Big Man bewegt sich passend zum Drive (hoch oder tief), der freie Guard füllt als Safety auf." },
+    { "num": "04", "name": "5-on-0 Full Speed Continuous", "tag": "", "text": "Das gesamte Team läuft im Höchsttempo über das Feld. Die Phasen werden fließend aneinandergereiht: erst Fastbreak, direkt Penetration, danach Inside-Anspiel und Übergang in die Secondary (Motion)." },
+    { "num": "05", "name": "Handicap 2-on-1 / 4-on-3", "tag": "", "text": "Der direkte Verteidiger von Spieler 1 startet mit dem Rücken zum Angreifer. Er darf erst umdrehen und recovern, nachdem Spieler 1 das erste Dribbling ansetzt. Das erzwingt schnelles Ausnutzen des Vorteils." },
+    { "num": "06", "name": "4-on-3 + 1 HC (Hütchen-Drill)", "tag": "Halbfeld", "text": "Spiel im Halbfeld. Bei Ballbesitzwechsel muss die Offense den Weg durch das innere Hütchen nehmen, während der Verteidiger den längeren Weg durch das äußere Hütchen laufen muss (1–2 Schritte Nachteil)." }
+  ],
+  "resources": [
+    { "group": "Quelle — Clinic-Video", "links": [
+      { "label": "Markus Pinezich — Automatics in Basketball (Rend Online Coaches Clinic 2020)", "url": "https://www.youtube.com/watch?v=iydk00BRtII" }
+    ]},
+    { "group": "Spacing & Positioning", "links": [
+      { "label": "breakthroughbasketball.com/drills/basicSpacingDrill", "url": "https://www.breakthroughbasketball.com/drills/basicSpacingDrill" },
+      { "label": "youtube.com/shorts/PgZ4Rlkk3bQ", "url": "https://www.youtube.com/shorts/PgZ4Rlkk3bQ" }
+    ]},
+    { "group": "Off Ball Screens", "links": [
+      { "label": "sportplan.net — Cuts off the screen drill", "url": "https://www.sportplan.net/drills/Basketball/2-v-2/Cuts-off-the-screen-drill-bb400013.jsp" },
+      { "label": "sportplan.net — Off the ball screen", "url": "https://www.sportplan.net/drills/Basketball/Passing/Off-the-ball-screen-bask52a.jsp" }
+    ]},
+    { "group": "Pick and Roll", "links": [
+      { "label": "breakthroughbasketball.com/drills/pick-and-roll-drills", "url": "https://www.breakthroughbasketball.com/drills/pick-and-roll-drills" },
+      { "label": "functionalbasketballcoaching.com/pick-roll-drill-series", "url": "https://functionalbasketballcoaching.com/pick-roll-drill-series/" },
+      { "label": "breakthroughbasketball.com/plays/pick-and-roll-plays", "url": "https://www.breakthroughbasketball.com/plays/pick-and-roll-plays" }
+    ]}
+  ],
+  "offense_8sec": {
+    "trigger": {
+      "trigger": "Ballbesitz nach gegnerischem Korb/Freiwurf",
+      "reaction": "8-Sekunden-Modus an",
+      "diagram": {
+        "court": "full",
+        "guardEngine": true,
+        "ball": "O5",
+        "players": [
+          { "id": "O5", "team": "O", "label": "5", "x": 150, "y": 595 },
+          { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 540 },
+          { "id": "O2", "team": "O", "label": "2", "x": 255, "y": 575 },
+          { "id": "O3", "team": "O", "label": "3", "x": 45, "y": 575 },
+          { "id": "O4", "team": "O", "label": "4", "x": 105, "y": 600 },
+          { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 480 },
+          { "id": "X2", "team": "X", "label": "X2", "x": 230, "y": 470 },
+          { "id": "X3", "team": "X", "label": "X3", "x": 70, "y": 470 },
+          { "id": "X4", "team": "X", "label": "X4", "x": 150, "y": 420 },
+          { "id": "X5", "team": "X", "label": "X5", "x": 190, "y": 445 }
+        ],
+        "steps": [
+          {
+            "caption": "Rebound/Inbound — O5 spielt sofort den Outlet-Pass zu O1. Die Defense ist noch weit weg von ihrem eigenen Korb.",
+            "actions": [
+              { "type": "pass", "from": "O5", "to": "O1" }
+            ]
+          },
+          {
+            "caption": "Sofort Tempo aufnehmen: O1 bringt den Ball, O2/O3 sprinten breit in die Außenbahnen, O5 sprintet als Trailer durch die Mitte, O4 füllt die zweite Trailer-Bahn. Die Defense sprintet zurück. 8-Sekunden-Modus an.",
+            "actions": [
+              { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 330 }, "via": { "x": 122, "y": 440 } },
+              { "type": "move", "id": "O2", "to": { "x": 260, "y": 300 }, "via": { "x": 274, "y": 440 } },
+              { "type": "move", "id": "O3", "to": { "x": 40, "y": 300 }, "via": { "x": 26, "y": 440 } },
+              { "type": "move", "id": "O5", "to": { "x": 190, "y": 195 }, "via": { "x": 190, "y": 430 } },
+              { "type": "move", "id": "O4", "to": { "x": 195, "y": 400 }, "via": { "x": 190, "y": 500 } },
+              { "type": "move", "id": "X1", "to": { "x": 150, "y": 250 } },
+              { "type": "move", "id": "X2", "to": { "x": 230, "y": 240 } },
+              { "type": "move", "id": "X3", "to": { "x": 70, "y": 240 } },
+              { "type": "move", "id": "X4", "to": { "x": 150, "y": 200 } },
+              { "type": "move", "id": "X5", "to": { "x": 190, "y": 220 } }
+            ]
+          },
+          {
+            "caption": "O1 zieht zum Korb und findet O5 (Trailer im Sprint) zum frühen Abschluss vor der eingelaufenen Defense.",
+            "actions": [
+              { "type": "pass", "from": "O1", "to": "O5" }
+            ]
+          }
+        ]
+      }
+    },
+    "phases": [
+      { "time": "0-2 Sek", "title": "Auslösen", "text": "Rebounder/Inbounder spielt sofort zum Point Guard oder zum freien Safety-Spieler in der Mitte." },
+      { "time": "2-5 Sek", "title": "Vorbringen", "text": "Kenne und fülle deine Bahn (know/fill your lane). Ball durchs Zentrum bringen — er muss so schnell wie möglich über die Mittellinie. Flügelspieler sprinten breit." },
+      { "time": "5-8 Sek", "title": "Entscheiden", "text": "Attack, Secondary oder Set-up: sofort zum Korb schauen — Drive, freier Wurf oder Break-Option; sonst fließend ins Halbfeld-Spiel übergehen." }
+    ],
+    "secondary": {
+      "text": "Kein Abschluss im ersten Zug? Dann fließt der Angriff nahtlos in die Secondary/Set-Aufstellung: der Trailer (5) füllt die Post, die Flügel spacen sich, und das Team geht in die Motion-Offense über.",
+      "diagram": {
+        "court": "half",
+        "guardEngine": true,
+        "ball": "O1",
+        "players": [
+          { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 70 },
+          { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 100 },
+          { "id": "O2", "team": "O", "label": "2", "x": 245, "y": 155 },
+          { "id": "X2", "team": "X", "label": "X2", "x": 228, "y": 172 },
+          { "id": "O3", "team": "O", "label": "3", "x": 55, "y": 155 },
+          { "id": "X3", "team": "X", "label": "X3", "x": 72, "y": 172 },
+          { "id": "O4", "team": "O", "label": "4", "x": 150, "y": 230 },
+          { "id": "X4", "team": "X", "label": "X4", "x": 150, "y": 258 },
+          { "id": "O5", "team": "O", "label": "5", "x": 150, "y": 282 },
+          { "id": "X5", "team": "X", "label": "X5", "x": 150, "y": 320 }
+        ],
+        "steps": [
+          { "caption": "Kein Fastbreak-Abschluss — die Defense hat sich zurückgezogen und steht gesetzt. O1 zieht den Ball zurück und ordnet das Team neu.", "actions": [] },
+          { "caption": "O4 (Trailer) füllt als Post-Anspielstation, O2/O3 spacen sich auf die Flügel — Übergang in die Secondary.", "actions": [ { "type": "move", "id": "O4", "to": { "x": 190, "y": 275 }, "via": { "x": 178, "y": 250 } }, { "type": "move", "id": "O2", "to": { "x": 268, "y": 210 } }, { "type": "move", "id": "O3", "to": { "x": 32, "y": 210 } }, { "type": "move", "id": "X4", "to": { "x": 195, "y": 295 } }, { "type": "move", "id": "X2", "to": { "x": 250, "y": 225 } }, { "type": "move", "id": "X3", "to": { "x": 50, "y": 225 } } ] },
+          { "caption": "Aus dieser Set-Aufstellung fließt das Spiel direkt in die Motion-Offense über.", "actions": [] }
+        ]
+      }
+    },
+    "break_options": [
+      { "name": "Lane Fastbreak", "text": "Point Guard treibt in die Mitte, zieht Hilfe, kickt zum breiten Flügel oder legt zum Center im Dunkers-Spot auf." },
+      { "name": "Early Flare", "text": "Ballferner Flügelspieler läuft flach zur Ecke, Power Forward screent für den Point Guard zum Pop nach außen." }
+    ],
+    "diagram": {
+      "court": "full",
+      "guardEngine": true,
+      "ball": "O5",
+      "players": [
+        { "id": "O5", "team": "O", "label": "5", "x": 150, "y": 580 },
+        { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 480 },
+        { "id": "O2", "team": "O", "label": "2", "x": 250, "y": 460 },
+        { "id": "O3", "team": "O", "label": "3", "x": 50, "y": 460 },
+        { "id": "O4", "team": "O", "label": "4", "x": 100, "y": 572 },
+        { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 425 },
+        { "id": "X2", "team": "X", "label": "X2", "x": 230, "y": 435 },
+        { "id": "X3", "team": "X", "label": "X3", "x": 70, "y": 435 },
+        { "id": "X4", "team": "X", "label": "X4", "x": 150, "y": 470 },
+        { "id": "X5", "team": "X", "label": "X5", "x": 190, "y": 455 }
+      ],
+      "steps": [
+        {
+          "caption": "0-2 Sek · Auslösen: Rebounder O5 spielt sofort zum Point Guard O1 — die Defense steht noch am eigenen Brett.",
+          "actions": [
+            { "type": "pass", "from": "O5", "to": "O1" }
+          ]
+        },
+        {
+          "caption": "2-5 Sek · Vorbringen: O1 bringt den Ball durchs Zentrum, die Flügel sprinten breit, O4/O5 laufen als Trailer nach. Die Defense sprintet zurück, liegt aber noch spürbar hinter der Offense — nur die Bigs (X4/X5) kommen als Erste zurück, um den Ring grob abzusichern.",
+          "actions": [
+            { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 280 }, "via": { "x": 126, "y": 380 } },
+            { "type": "move", "id": "O2", "to": { "x": 270, "y": 360 }, "via": { "x": 278, "y": 415 } },
+            { "type": "move", "id": "O3", "to": { "x": 30, "y": 360 }, "via": { "x": 22, "y": 415 } },
+            { "type": "move", "id": "O4", "to": { "x": 95, "y": 300 }, "via": { "x": 90, "y": 430 } },
+            { "type": "move", "id": "O5", "to": { "x": 195, "y": 300 }, "via": { "x": 195, "y": 430 } },
+            { "type": "move", "id": "X1", "to": { "x": 150, "y": 305 } },
+            { "type": "move", "id": "X2", "to": { "x": 250, "y": 390 } },
+            { "type": "move", "id": "X3", "to": { "x": 48, "y": 390 } },
+            { "type": "move", "id": "X4", "to": { "x": 150, "y": 260 } },
+            { "type": "move", "id": "X5", "to": { "x": 185, "y": 270 } }
+          ]
+        }
+      ],
+      "branch": {
+        "prompt": "5-8 Sek · Entscheiden: Drive durch, oder zieht die Defense schon zu?",
+        "options": [
+          {
+            "label": "Option A · Drive zum Korb",
+            "steps": [
+              {
+                "caption": "O1 zieht direkt durch zum Korb — X4/X5 kommen nicht mehr rechtzeitig.",
+                "actions": [
+                  { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 60 }, "via": { "x": 172, "y": 165 } },
+                  { "type": "move", "id": "X4", "to": { "x": 150, "y": 140 } },
+                  { "type": "move", "id": "X5", "to": { "x": 195, "y": 160 } }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "Option B · Break-Option (Trailer)",
+            "steps": [
+              {
+                "caption": "Die Defense steht schon im Weg — O1 zieht kurz an, zieht X4 zu sich und legt zum durchlaufenden Trailer O4 im Dunkers-Spot auf.",
+                "actions": [
+                  { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 200 }, "via": { "x": 165, "y": 240 } },
+                  { "type": "move", "id": "O4", "to": { "x": 110, "y": 175 }, "via": { "x": 100, "y": 230 } },
+                  { "type": "move", "id": "X4", "to": { "x": 155, "y": 190 } },
+                  { "type": "pass", "from": "O1", "to": "O4" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "defense_221": {
+    "positions": [
+      { "role": "X1/X2", "label": "Frontline — Höhe gegnerische Freiwurflinie", "text": "Schnellste Spieler. Lenken Ball nach Einwurf konsequent zur Seitenlinie." },
+      { "role": "X3/X4", "label": "Middleline — an der Mittellinie", "text": "Bauen die Falle an der Seitenlinie mit auf, decken Passwege zur Mitte." },
+      { "role": "X5", "label": "Backline — Höhe eigene Freiwurflinie", "text": "Tiefste Absicherung, verhindert den freien Korbleger." }
+    ],
+    "steps": [
+      "Einwurf nicht stören, aber Passwege zur Mitte zustellen.",
+      "Sobald gedribbelt wird: X1/X2 greifen an, lenken zur Seitenlinie.",
+      "Auf Höhe Mittellinie: Falle (Trap) mit Middleline-Spieler.",
+      "Ballferner Frontline-Spieler sprintet in die Mitte (Interceptor).",
+      "X5 bleibt tief, sichert langen Pass und Konter ab."
+    ],
+    "diagram": {
+      "court": "full",
+      "ball": "O2",
+      "players": [
+        { "id": "O2", "team": "O", "label": "2", "x": 185, "y": 600 },
+        { "id": "O1", "team": "O", "label": "1", "x": 95, "y": 555 },
+        { "id": "O3", "team": "O", "label": "3", "x": 220, "y": 540 },
+        { "id": "O4", "team": "O", "label": "4", "x": 150, "y": 425 },
+        { "id": "O5", "team": "O", "label": "5", "x": 150, "y": 200 },
+        { "id": "X1", "team": "X", "label": "X1", "x": 110, "y": 492 },
+        { "id": "X2", "team": "X", "label": "X2", "x": 190, "y": 492 },
+        { "id": "X3", "team": "X", "label": "X3", "x": 80, "y": 310 },
+        { "id": "X4", "team": "X", "label": "X4", "x": 220, "y": 310 },
+        { "id": "X5", "team": "X", "label": "X5", "x": 150, "y": 128 }
+      ],
+      "steps": [
+        {
+          "caption": "Aufstellung: X1/X2 auf Höhe der gegnerischen Freiwurflinie, X3/X4 an der Mittellinie, X5 an der eigenen Freiwurflinie. Einwurf nicht stören — Passwege zur Mitte zustellen.",
+          "actions": [
+            { "type": "pass", "from": "O2", "to": "O1" },
+            { "type": "move", "id": "X1", "to": { "x": 118, "y": 508 } }
+          ]
+        },
+        {
+          "caption": "Sobald gedribbelt wird: X1 greift an und lenkt O1 konsequent zur Seitenlinie.",
+          "actions": [
+            { "type": "dribble", "id": "O1", "to": { "x": 58, "y": 340 }, "via": { "x": 44, "y": 450 } },
+            { "type": "move", "id": "X1", "to": { "x": 90, "y": 382 }, "via": { "x": 96, "y": 448 } }
+          ]
+        },
+        {
+          "caption": "Auf Höhe der Mittellinie: X3 kommt hoch — Falle (Trap) mit X1 an der Seitenlinie.",
+          "actions": [
+            { "type": "move", "id": "X3", "to": { "x": 74, "y": 320 } },
+            { "type": "move", "id": "X1", "to": { "x": 80, "y": 366 } }
+          ]
+        },
+        {
+          "caption": "X2 sprintet als Interceptor in die Mitte, X4 übernimmt die Passwege auf der Ballseite.",
+          "actions": [
+            { "type": "move", "id": "X2", "to": { "x": 148, "y": 355 }, "via": { "x": 168, "y": 425 } },
+            { "type": "move", "id": "X4", "to": { "x": 195, "y": 268 } }
+          ]
+        },
+        {
+          "caption": "X5 bleibt tief, sichert den langen Pass und den Konter ab.",
+          "actions": [
+            { "type": "move", "id": "X5", "to": { "x": 128, "y": 142 } }
+          ]
+        }
+      ]
+    },
+    "release": {
+      "trigger": "Gegner überschreitet die Mittellinie",
+      "reaction": "Von Press automatisch in 2-3 Zone-Defense wechseln",
+      "diagram": {
+        "court": "full",
+        "ball": "O1",
+        "players": [
+          { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 325 },
+          { "id": "O2", "team": "O", "label": "2", "x": 255, "y": 290 },
+          { "id": "O3", "team": "O", "label": "3", "x": 45, "y": 290 },
+          { "id": "O4", "team": "O", "label": "4", "x": 200, "y": 365 },
+          { "id": "O5", "team": "O", "label": "5", "x": 100, "y": 365 },
+          { "id": "X1", "team": "X", "label": "X1", "x": 110, "y": 492 },
+          { "id": "X2", "team": "X", "label": "X2", "x": 190, "y": 492 },
+          { "id": "X3", "team": "X", "label": "X3", "x": 80, "y": 310 },
+          { "id": "X4", "team": "X", "label": "X4", "x": 220, "y": 310 },
+          { "id": "X5", "team": "X", "label": "X5", "x": 150, "y": 128 }
+        ],
+        "steps": [
+          {
+            "caption": "O1 überschreitet mit dem Ball die Mittellinie — die Press löst sich automatisch auf, alle fünf beginnen den Rückzug.",
+            "actions": [
+              { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 260 }, "via": { "x": 138, "y": 290 } },
+              { "type": "move", "id": "X1", "to": { "x": 140, "y": 320 } },
+              { "type": "move", "id": "X2", "to": { "x": 170, "y": 320 } },
+              { "type": "move", "id": "X3", "to": { "x": 100, "y": 240 } },
+              { "type": "move", "id": "X4", "to": { "x": 200, "y": 240 } },
+              { "type": "move", "id": "X5", "to": { "x": 150, "y": 150 } }
+            ]
+          },
+          {
+            "caption": "X1/X2 formieren die Front der 2-3-Zone am Zonen-Top, X5 sichert die Mitte/Paint.",
+            "actions": [
+              { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 200 }, "via": { "x": 145, "y": 230 } },
+              { "type": "move", "id": "O2", "to": { "x": 240, "y": 200 } },
+              { "type": "move", "id": "O3", "to": { "x": 60, "y": 200 } },
+              { "type": "move", "id": "O4", "to": { "x": 210, "y": 280 } },
+              { "type": "move", "id": "O5", "to": { "x": 90, "y": 280 } },
+              { "type": "move", "id": "X1", "to": { "x": 105, "y": 190 } },
+              { "type": "move", "id": "X2", "to": { "x": 195, "y": 190 } },
+              { "type": "move", "id": "X5", "to": { "x": 150, "y": 60 } }
+            ]
+          },
+          {
+            "caption": "X3 und X4 gehen weit auf die Baseline raus in die Corners — die 2-3-Zone deckt auch die Ecken konsequent ab.",
+            "actions": [
+              { "type": "move", "id": "X3", "to": { "x": 45, "y": 40 } },
+              { "type": "move", "id": "X4", "to": { "x": 255, "y": 40 } }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "pick_and_roll": [
+    {
+      "id": "pnr_5_1",
+      "title": "Pick and Roll — Reine Grundform (5 stellt für 1)",
+      "subtitle": "Nur Ballhandler (1) und Center (5) sind aktiv, restliche Aufstellung normal besetzt",
+      "text": "O5 kommt herüber und screent direkt für den Ballhandler O1 — die übrigen drei Spieler stehen in normaler Aufstellung (Corner, Wing, Corner), greifen aber nicht aktiv ins Spiel ein. So lässt sich der Grundread (Drop, Hedge, Switch) isoliert erkennen, ohne dass die volle 5-Mann-Spacing fehlt.",
+      "diagram": {
+        "guardEngine": true,
+        "court": "half",
+        "ball": "O1",
+        "players": [
+          { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 110 },
+          { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 130 },
+          { "id": "O5", "team": "O", "label": "5", "x": 215, "y": 160 },
+          { "id": "X5", "team": "X", "label": "X5", "x": 206, "y": 178 },
+          { "id": "O2", "team": "O", "label": "2", "x": 280, "y": 300 },
+          { "id": "X2", "team": "X", "label": "X2", "x": 260, "y": 282 },
+          { "id": "O3", "team": "O", "label": "3", "x": 38, "y": 152 },
+          { "id": "X3", "team": "X", "label": "X3", "x": 58, "y": 165 },
+          { "id": "O4", "team": "O", "label": "4", "x": 22, "y": 308 },
+          { "id": "X4", "team": "X", "label": "X4", "x": 45, "y": 292 }
+        ],
+        "steps": [
+          {
+            "caption": "O5 kommt herüber und stellt den Ball-Screen ganz nah an X1, direkt an der Dreierlinie.",
+            "actions": [
+              { "type": "screen", "id": "O5", "to": { "x": 172, "y": 130 } }
+            ]
+          },
+          {
+            "caption": "O1 attackiert über den Screen (oben herum, nicht darunter) — X1 wird vom Block geschlagen (rot).",
+            "actions": [
+              { "type": "dribble", "id": "O1", "to": { "x": 205, "y": 145 }, "via": { "x": 198, "y": 95 } },
+              { "type": "beat", "id": "X1" }
+            ]
+          }
+        ],
+        "branch": {
+          "prompt": "Wie reagiert die Verteidigung auf den Screen?",
+          "options": [
+            {
+              "label": "Option A · Switch",
+              "steps": [
+                {
+                  "caption": "Switch: X1 und X5 tauschen die Zuordnung (beide kurz rot). X5 übernimmt O1 auf der Korblinie, X1 wechselt auf O5.",
+                  "actions": [
+                    { "type": "switch", "players": ["X1", "X5"] }
+                  ]
+                },
+                {
+                  "caption": "Mismatch ausnutzen: X5 (eigentlich Center-Verteidiger) kann O1 auf dem Perimeter nicht stoppen — O1 attackiert direkt zum Korb.",
+                  "actions": [
+                    { "type": "dribble", "id": "O1", "to": { "x": 150, "y": 270 }, "via": { "x": 170, "y": 220 } }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "Option B · Drop Coverage",
+              "steps": [
+                {
+                  "caption": "X5 droppt zurück in die Zone, um Drive und Rolle früh zu kontrollieren (Drop Coverage — kein Switch, kein Hedge). X1 kämpft sich unter dem Screen hindurch zurück Richtung O1 — O5 blockiert dabei weiterhin den direkten Rückweg.",
+                  "actions": [
+                    { "type": "move", "id": "X5", "to": { "x": 175, "y": 220 } },
+                    { "type": "move", "id": "X1", "to": { "x": 195, "y": 155 }, "via": { "x": 168, "y": 146 } }
+                  ]
+                },
+                {
+                  "caption": "X5 hat die Zone komplett zu — O1 zieht lieber den offenen Pull-up, statt den gut bewachten Roll zu suchen. X1 kommt im Rücken an, zu spät für den Kontest.",
+                  "actions": [
+                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 185, "y": 210 } },
+                    { "type": "move", "id": "X5", "to": { "x": 163, "y": 272 } }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pnr_5_0",
+      "title": "Pick and Roll 5:0 (5-Out)",
+      "subtitle": "Screen vom Center (5) für den Ballhandler in 5-Out-Spacing",
+      "text": "In 5-Out-Spacing steht auch O5 zunächst außerhalb der Dreierlinie. O5 kommt hoch und screent für O1 — der Paint bleibt für den Roll komplett frei.",
+      "diagram": {
+        "guardEngine": true,
+        "court": "half",
+        "ball": "O1",
+        "players": [
+          { "id": "O1", "team": "O", "label": "1", "x": 150, "y": 108 },
+          { "id": "X1", "team": "X", "label": "X1", "x": 150, "y": 132 },
+          { "id": "O5", "team": "O", "label": "5", "x": 40, "y": 152 },
+          { "id": "X5", "team": "X", "label": "X5", "x": 60, "y": 165 },
+          { "id": "O2", "team": "O", "label": "2", "x": 282, "y": 300 },
+          { "id": "X2", "team": "X", "label": "X2", "x": 262, "y": 282 },
+          { "id": "O3", "team": "O", "label": "3", "x": 18, "y": 300 },
+          { "id": "X3", "team": "X", "label": "X3", "x": 38, "y": 282 },
+          { "id": "O4", "team": "O", "label": "4", "x": 245, "y": 170 },
+          { "id": "X4", "team": "X", "label": "X4", "x": 228, "y": 182 }
+        ],
+        "steps": [
+          {
+            "caption": "O5 kommt aus dem 5-Out-Spacing hoch und stellt den Ball-Screen ganz nah an X1, direkt an der Dreierlinie.",
+            "actions": [
+              { "type": "screen", "id": "O5", "to": { "x": 172, "y": 130 } },
+              { "type": "move", "id": "X5", "to": { "x": 168, "y": 148 } }
+            ]
+          },
+          {
+            "caption": "O1 attackiert über den Screen (oben herum) — X1 wird vom Block geschlagen (rot).",
+            "actions": [
+              { "type": "dribble", "id": "O1", "to": { "x": 220, "y": 145 }, "via": { "x": 197, "y": 92 } },
+              { "type": "beat", "id": "X1" }
+            ]
+          }
+        ],
+        "branch": {
+          "prompt": "Wie reagiert X5 auf den Screen?",
+          "options": [
+            {
+              "label": "Option A · Switch",
+              "steps": [
+                {
+                  "caption": "Verteidigung switcht (beide kurz rot): X5 zeigt schon während des Screens auf O1.",
+                  "actions": [
+                    { "type": "switch", "players": ["X1", "X5"] },
+                    { "type": "move", "id": "X5", "to": { "x": 200, "y": 150 } }
+                  ]
+                },
+                {
+                  "caption": "Switch komplett: X5 übernimmt O1 auf dessen direkter Korblinie. O5 rollt zum Korb, X1 wechselt auf die Rolle, kommt aber im Rücken — und weil in 5-Out kein zweiter Big im Paint steht, ist niemand da, der noch helfen könnte. Der Korb ist frei.",
+                  "actions": [
+                    { "type": "move", "id": "X5", "to": { "x": 209, "y": 168 } },
+                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 188, "y": 208 } },
+                    { "type": "move", "id": "X1", "to": { "x": 170, "y": 235 } }
+                  ]
+                },
+                {
+                  "caption": "O1 spielt den Pass in den freien Lauf zum Korb.",
+                  "actions": [
+                    { "type": "pass", "from": "O1", "to": "O5" }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "Option B · Drop Coverage",
+              "steps": [
+                {
+                  "caption": "X5 droppt zurück in die Zone, um Drive und Rolle früh zu kontrollieren (Drop Coverage — kein Switch). X1 kämpft sich unter dem Screen hindurch zurück Richtung O1 — O5 blockiert dabei weiterhin den direkten Rückweg.",
+                  "actions": [
+                    { "type": "move", "id": "X5", "to": { "x": 185, "y": 210 } },
+                    { "type": "move", "id": "X1", "to": { "x": 210, "y": 155 }, "via": { "x": 168, "y": 145 } }
+                  ]
+                },
+                {
+                  "caption": "X5 hat die Zone komplett zu — O1 zieht lieber den offenen Pull-up, statt den gut bewachten Roll zu suchen. X1 kommt im Rücken an, zu spät für den Kontest.",
+                  "actions": [
+                    { "type": "cut", "id": "O5", "to": { "x": 150, "y": 295 }, "via": { "x": 188, "y": 208 } },
+                    { "type": "move", "id": "X5", "to": { "x": 170, "y": 265 } }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "golden_rules": [
+    "Nie in der Falle foulen — Ziel ist der hohe, langsame Lobpass.",
+    "Nie einen unbedrängten Korbleger zulassen — ein offener Distanzwurf ist okay.",
+    "Ständig kommunizieren — laut 'Ball!' oder 'Trap!' rufen.",
+    "Ball immer durch die Mitte bringen, nicht über die Seitenlinie.",
+    "Nach Ballgewinn sofort in den 8-Sekunden-Modus."
+  ]
+}

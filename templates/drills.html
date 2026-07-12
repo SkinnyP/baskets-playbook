@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Trainingsübungen{% endblock %}
+{% block apptitle %}Drills{% endblock %}
+{% block content %}
+<header class="hero">
+  <div class="hero-inner">
+    {% if logo_uri %}
+    <div class="brand">
+      <img src="{{ logo_uri }}" alt="Baskets Feldkirch Logo">
+      <div class="wordmark">Baskets<br>Feldkirch<span>got game since 1997</span></div>
+    </div>
+    {% endif %}
+    <div class="eyebrow">Saison {{ season }} · Coaching</div>
+    <h1 class="title">Trainingsübungen</h1>
+    <p class="subtitle">Drills, mit denen die Automatics eintrainiert werden — hohe Wiederholungsrate, Entscheidungen unter Stress.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  {% if methodik %}
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Methodik</h2></div>
+    <div class="card">
+      <p style="margin:0 0 10px;font-size:14px;">{{ methodik.text }}</p>
+      <ul class="rules">
+        {% for t in methodik.teaching %}<li>{{ t }}</li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  <section>
+    <div class="sec-head"><span class="sec-num">•</span><h2 class="sec-title">Übungen</h2></div>
+    {% for d in drills %}
+    <div class="card" style="margin-bottom:14px;">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;">
+        <span style="font-family:'Rokkitt',Georgia,serif;font-weight:800;font-size:24px;color:var(--accent);">{{ d.num }}</span>
+        <strong style="font-size:14.5px;">{{ d.name }}</strong>
+        {% if d.tag %}<span class="tag" style="margin:0 0 0 auto;">{{ d.tag }}</span>{% endif %}
+      </div>
+      <p style="margin:0;font-size:13.5px;color:var(--text-mute)">{{ d.text }}</p>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section>
+    <div class="card">
+      <p style="margin:0;font-size:13.5px;color:var(--text-mute)">Zurück zum <a href="playbook.html" style="color:var(--accent);font-weight:700;">Playbook →</a></p>
+    </div>
+  </section>
+
+</main>
+{% endblock %}
